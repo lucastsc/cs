@@ -1,0 +1,6 @@
+27/04/2019
+-criar a tela splash screen (animacao)
+-criar a tela principal (sugestao:mostra tudo o que tem)
+ -criar o navigationDrawer
+ -criar bottomNavigationBar
+ -cards com os restaurantes

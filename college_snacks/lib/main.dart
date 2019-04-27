@@ -1,9 +1,10 @@
+import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 
 void main(){
 
   runApp(MaterialApp(
-    /*home: HomePage(),*/
+    home: HomeScreen(),
     debugShowCheckedModeBanner: false,
   ));
 }

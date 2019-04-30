@@ -41,12 +41,20 @@ class UserModel extends Model{
 
   }
 
+  Future signOut() async {
+    await _auth.signOut();
+
+    userData = Map();
+    firebaseUser = null;
+    notifyListeners();
+  }
+
   void recoverPass(){
 
   }
 
-  void isLoggedIn(){
-
+  bool isLoggedIn(){
+    return firebaseUser != null;
   }
 
   Future<Null> _saveUserData(Map<String,dynamic> userData) async {//underscore states that the function can only be called inside the class, i.e, internal function

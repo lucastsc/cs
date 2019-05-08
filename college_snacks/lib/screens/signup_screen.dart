@@ -9,14 +9,17 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _scaffKey = GlobalKey<ScaffoldState>();
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffKey,
       appBar: AppBar(
         title: Text("Criar Conta"),
         centerTitle: true,
@@ -49,6 +52,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                 ),
                 TextFormField(
+                  controller: _addressController,
+                  obscureText: false,
+                  decoration: InputDecoration(hintText: "Endereço"),
+                  validator: (text) {
+                    if (text.isEmpty)
+                      return "Endereço inválida!";
+                  },
+                ),
+                TextFormField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(hintText: "Senha"),
@@ -71,8 +83,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Map<String, dynamic> userData = {
                         "name": _nameController.text,
                         "email": _emailController.text,
+                        "address": _addressController.text
                       };
-
                       model.signUp(
                           userData: userData,
                           password: _passwordController.text,
@@ -90,10 +102,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onSuccess() {
-    //success on the user creation
+    _scaffKey.currentState.showSnackBar(SnackBar(content: Text("Usuário criado com sucesso!"), duration: Duration(seconds: 2),));
+    Future.delayed(Duration(seconds: 2)).then((exit){
+      Navigator.of(context).pop();
+    });
   }
 
   void _onFail() {
-    //fail on user creation
+    _scaffKey.currentState.showSnackBar(SnackBar(content: Text("Usuário criado com sucesso!"), duration: Duration(seconds: 2),));
   }
 }

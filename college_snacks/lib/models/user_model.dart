@@ -5,9 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserModel extends Model{
 
+  @override
+  void addListener(VoidCallback listener) async{  // function that is called when the object (UserModel variables) changes.
+    super.addListener(listener); // Add a listener
+    await loadUser(); // refresh current user and user data
+  }
+
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
-
   Map<String,dynamic> userData = Map();//will have name, email, user information...
 
   bool isLoading = false;
@@ -37,8 +42,22 @@ class UserModel extends Model{
     });
   }
 
-  void signIn(){
+  Future<Null> signIn({@required String email, @required String pass, VoidCallback onSuccess, VoidCallback onFailed}) async{
+    isLoading = true;
+    notifyListeners();
 
+    await _auth.signInWithEmailAndPassword(email: email, password: pass).then((user) async{
+      firebaseUser = user;
+
+      await loadUser();
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e){
+      onFailed();
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   Future signOut() async {
@@ -49,8 +68,14 @@ class UserModel extends Model{
     notifyListeners();
   }
 
-  void recoverPass(){
-
+   Future<Null> loadUser() async{ // Function to recover a logged user from Firebase (when it closes the app, for example)
+    if(firebaseUser == null){
+      firebaseUser = await  _auth.currentUser();
+    }
+    if(firebaseUser != null){
+      DocumentSnapshot doc = await Firestore.instance.collection("users").document(firebaseUser.uid).get();
+      this.userData = doc.data;
+    }
   }
 
   bool isLoggedIn(){
@@ -61,4 +86,5 @@ class UserModel extends Model{
     this.userData = userData;
     await Firestore.instance.collection("users").document(firebaseUser.uid).setData(userData); //saving userData on Firebase
   }
+
 }

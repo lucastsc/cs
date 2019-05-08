@@ -1,4 +1,5 @@
 import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/login_screen.dart';
 import 'package:college_snacks/screens/signup_screen.dart';
 import 'package:college_snacks/tiles/drawer_tile.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text("Olá,${!model.isLoggedIn() ? "" : model.userData["name"]}",
+                              Text("Olá, ${!model.isLoggedIn() ? "" : model.userData["name"]}",
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold
@@ -55,11 +56,10 @@ class CustomDrawer extends StatelessWidget {
                                 ),
                                 onTap: (){
                                   if(!model.isLoggedIn()){
-                                    //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginScreen()));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginScreen()));
                                   }else{
                                     model.signOut();
                                   }
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                                 },
                               )
                             ],

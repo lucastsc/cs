@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
+
+  final PageController pageController;
+
+  CustomDrawer(this.pageController);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,7 +18,7 @@ class CustomDrawer extends StatelessWidget {
         children: <Widget>[
 
           ListView(
-            padding: EdgeInsets.only(left: 32.0,top: 16.0),
+            padding: EdgeInsets.only(left: 24.0,top: 16.0),
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(bottom: 8.0),
@@ -71,9 +76,9 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               Divider(),
-              DrawerTile(Icons.home,"Início"),
-              DrawerTile(Icons.shopping_cart,"Carrinho"),
-              DrawerTile(Icons.playlist_add_check,"Meus Pedidos"),
+              DrawerTile(Icons.home,"Início", pageController, 0),
+              DrawerTile(Icons.shopping_cart,"Carrinho", pageController, 1),
+              DrawerTile(Icons.playlist_add_check,"Meus Pedidos", pageController, 2),
             ],
           )
         ],

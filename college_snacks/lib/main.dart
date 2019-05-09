@@ -9,6 +9,9 @@ void main(){
     ScopedModel<UserModel>(
         model: UserModel(),
         child: MaterialApp(
+          theme: ThemeData(
+            primaryColor: Color.fromRGBO(181, 1, 97, 1)
+          ),
           home: HomeScreen(),
           debugShowCheckedModeBanner: false,
         ))

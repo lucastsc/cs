@@ -69,29 +69,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return "Senha inválida!";
                   },
                 ),
-                RaisedButton(
-                  child: Text(
-                    "Criar Conta",
-                    style: TextStyle(
-                      fontSize: 18.0,
+                SizedBox(height: 20.0,),
+                SizedBox(
+                  height: 40.0,
+                  child: RaisedButton(
+                    child: Text(
+                      "Criar Conta",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
                     ),
+                    textColor: Colors.white,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        Map<String, dynamic> userData = {
+                          "name": _nameController.text,
+                          "email": _emailController.text,
+                          "address": _addressController.text
+                        };
+                        model.signUp(
+                            userData: userData,
+                            password: _passwordController.text,
+                            onSuccess: _onSuccess,
+                            onFail: _onFail);
+                      }
+                    },
                   ),
-                  textColor: Colors.white,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      Map<String, dynamic> userData = {
-                        "name": _nameController.text,
-                        "email": _emailController.text,
-                        "address": _addressController.text
-                      };
-                      model.signUp(
-                          userData: userData,
-                          password: _passwordController.text,
-                          onSuccess: _onSuccess,
-                          onFail: _onFail);
-                    }
-                  },
                 )
               ],
             ),

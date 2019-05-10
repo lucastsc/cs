@@ -1,3 +1,4 @@
+import 'package:college_snacks/Tabs/restaurant_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -47,8 +48,13 @@ class _HomeTabState extends State<HomeTab> {
                     margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
                     height: 150,
                     width: 200,
-                    child: Card(
-                      child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                    child: GestureDetector(
+                      child: Card(
+                        child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(index)));
+                      },
                     ),
                   );
                 }, childCount: snapshot.data.documents.length

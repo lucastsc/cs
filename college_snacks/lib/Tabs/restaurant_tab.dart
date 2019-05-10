@@ -5,32 +5,24 @@ import 'package:college_snacks/tiles/category_tile.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantTab extends StatelessWidget {
-  int index; //each restaurant card(tile) has an index (0,1,...,8)
   String categoryName; //bebidas,refeicoes,sanduiches...
   String restaurantName;
 
-  List<String> restaurants = [
-    //they are documents in firebase
-    "restaurante1", "restaurante2", "restaurante3",
-    "restaurante4", "restaurante5", "restaurante6",
-    "restaurante7", "restaurante8", "restaurante9"
-  ]; //index 0,1,2,3,4,5,6,7,8
-
-  RestaurantTab(this.index); //constructor receives the index of the restaurant
+  RestaurantData selectedRestaurant;
+  RestaurantTab(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(restaurants[index]),//todo:MUST TRY TO FETCH DATA FROM FIREBASE
+        title: Text(selectedRestaurant.name),
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("restaurants")
-            .document(restaurants[index])
+            .document(selectedRestaurant.id)//restaurante1,restaurante2,restaurante3...
             .collection("cardapio")
-            .getDocuments(),
-        //it contains the categories (ex:bebidas,refeicoes,sanduiches)
+            .getDocuments(),//it contains the categories (ex:bebidas,refeicoes,sanduiches)
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -40,14 +32,10 @@ class RestaurantTab extends StatelessWidget {
             return ListView(
               children: snapshot.data.documents.map((doc) {
                 return GestureDetector(
-                  child: CategoryTile(doc),
+                  child: CategoryTile(doc),//categoryTile has the way the doc will be displayed in the ListView
                   onTap: () {
-                    categoryName = doc.documentID;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ProductsTab(index, categoryName, restaurants)));
+                    categoryName = doc.documentID;//bebidas,refeicoes,sanduiches...
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => ProductsTab(selectedRestaurant, categoryName)));////sends the restaurant object and the categoryName to the ProductsTab
                   },
                 );
               }).toList(),

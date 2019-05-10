@@ -57,9 +57,8 @@ class _HomeTabState extends State<HomeTab> {
                         child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
                       ),
                       onTap: (){
-                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//retrieve all the fields from the selected restaurant
-                        print(selectedRestaurant.name);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(index)));
+                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
 
                       },
                     ),

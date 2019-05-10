@@ -14,8 +14,6 @@ class ProductsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print("$index+$categoryName+$restaurants");
-
     return FutureBuilder<QuerySnapshot>(
       future: Firestore.instance.collection("restaurants").document(restaurants[index]).collection("cardapio").document(categoryName).collection("itens").getDocuments(),//products
       builder: (context,snapshot){

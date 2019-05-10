@@ -11,7 +11,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-      future: Firestore.instance.collection("images").getDocuments(),
+      future: /*Firestore.instance.collection("images").getDocuments()*/Firestore.instance.collection("restaurants").getDocuments(),
       builder: (context, snapshot){
         if(!snapshot.hasData){
           return Center(child: CircularProgressIndicator(),);

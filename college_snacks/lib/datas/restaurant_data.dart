@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class RestaurantData{
 
@@ -8,7 +7,7 @@ class RestaurantData{
   String searchKey;
   String url;
 
-  RestaurantData.fromDocument(AsyncSnapshot snapshot){
+  RestaurantData.fromDocument(DocumentSnapshot snapshot){
     cnpj = snapshot.data["cnpj"];
     name = snapshot.data["name"];
     searchKey = snapshot.data["searchKey"];

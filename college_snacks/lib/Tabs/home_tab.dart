@@ -1,4 +1,5 @@
 import 'package:college_snacks/Tabs/restaurant_tab.dart';
+import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,10 +9,13 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+
+  RestaurantData selectedRestaurant;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-      future: /*Firestore.instance.collection("images").getDocuments()*/Firestore.instance.collection("restaurants").getDocuments(),
+      future: Firestore.instance.collection("restaurants").getDocuments(),
       builder: (context, snapshot){
         if(!snapshot.hasData){
           return Center(child: CircularProgressIndicator(),);
@@ -53,7 +57,10 @@ class _HomeTabState extends State<HomeTab> {
                         child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
                       ),
                       onTap: (){
+                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//retrieve all the fields from the selected restaurant
+                        print(selectedRestaurant.name);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(index)));
+
                       },
                     ),
                   );

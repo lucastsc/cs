@@ -59,7 +59,7 @@ class _FinalProductTabState extends State<FinalProductTab> {
                           child: Icon(Icons.remove),
                           onPressed: () {
                             setState(() {
-                              quantity <= 0 ? quantity = 0 : quantity-=1;
+                              quantity <= 1 ? quantity = 1 : quantity-=1;
                             });
                           },
                         ),

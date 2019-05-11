@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Tabs/products_tab.dart';
+import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/tiles/category_tile.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 class RestaurantTab extends StatelessWidget {
   String categoryName; //bebidas,refeicoes,sanduiches...
   String restaurantName;
+  CategoryData categoryData;
 
   RestaurantData selectedRestaurant;
   RestaurantTab(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
@@ -34,8 +36,9 @@ class RestaurantTab extends StatelessWidget {
                 return GestureDetector(
                   child: CategoryTile(doc),//categoryTile has the way the doc will be displayed in the ListView
                   onTap: () {
-                    categoryName = doc.documentID;//bebidas,refeicoes,sanduiches...
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => ProductsTab(selectedRestaurant, categoryName)));////sends the restaurant object and the categoryName to the ProductsTab
+                    categoryData = CategoryData.fromDocument(doc);
+                    //categoryName = doc.documentID;//bebidas,refeicoes,sanduiches...
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => ProductsTab(selectedRestaurant, categoryData)));////sends the restaurant object and the categoryName to the ProductsTab
                   },
                 );
               }).toList(),

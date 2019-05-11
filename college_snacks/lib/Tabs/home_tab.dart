@@ -10,7 +10,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
 
-  RestaurantData selectedRestaurant;
+  RestaurantData selectedRestaurant;//create the object restaurant.It will contain all the fields of a restaurant.See "restaurant_data".
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,6 @@ class _HomeTabState extends State<HomeTab> {
                       onTap: (){
                         selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
-
                       },
                     ),
                   );

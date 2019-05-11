@@ -16,6 +16,8 @@ class _FinalProductTabState extends State<FinalProductTab> {
 
   @override
   Widget build(BuildContext context) {
+    double productPrice = widget.productData.price;//price of the product
+
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -37,7 +39,11 @@ class _FinalProductTabState extends State<FinalProductTab> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[Text(widget.productData.description)],
             ),
-            SizedBox(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[Text("R\$:$productPrice" )],
+            ),
+            SizedBox(//vertical space
               height: 30.0,
             ),
             Row(//containing the container with borders with the add and remove buttons

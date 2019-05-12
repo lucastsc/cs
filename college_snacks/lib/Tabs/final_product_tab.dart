@@ -13,10 +13,26 @@ class FinalProductTab extends StatefulWidget {
 class _FinalProductTabState extends State<FinalProductTab> {
 
   int quantity = 1;
+  String productPriceShown;
+  double totalPrice;
+  String totalPriceShown;
 
   @override
   Widget build(BuildContext context) {
+
     double productPrice = widget.productData.price;//price of the product
+
+
+    if(productPrice == null){
+      productPriceShown = "Preço não cadastrado";
+    }else{
+      productPriceShown = productPrice.toStringAsFixed(2);
+      totalPrice = productPrice*quantity;
+      totalPriceShown = totalPrice.toStringAsFixed(2);
+    }
+
+
+
 
     return Scaffold(
       appBar: AppBar(),
@@ -37,11 +53,11 @@ class _FinalProductTabState extends State<FinalProductTab> {
             ),
             Row(//row containing the description of the product
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Text(widget.productData.description)],
+              children: <Widget>[Text(widget.productData.description,style: TextStyle(fontSize: 18.0),)],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Text("R\$:$productPrice" )],
+              children: <Widget>[Text("R\$:$productPriceShown" ,style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),)],
             ),
             SizedBox(//vertical space
               height: 30.0,
@@ -93,9 +109,14 @@ class _FinalProductTabState extends State<FinalProductTab> {
                     ],
                   ),
                 ),
-                RaisedButton(
-                  child: Text("Adicionar ao carrinho"),
-                  onPressed: () {},
+                Column(
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("Adicionar ao carrinho"),
+                      onPressed: () {},
+                    ),
+                    Text("Total: R\$: $totalPriceShown",style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),)
+                  ],
                 )
               ],
             )

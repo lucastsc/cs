@@ -25,6 +25,7 @@ class _FinalProductTabState extends State<FinalProductTab> {
 
     if(productPrice == null){
       productPriceShown = "Preço não cadastrado";
+      totalPriceShown = "Preço não cadastrado";
     }else{
       productPriceShown = productPrice.toStringAsFixed(2);
       totalPrice = productPrice*quantity;
@@ -60,9 +61,10 @@ class _FinalProductTabState extends State<FinalProductTab> {
               children: <Widget>[Text("R\$:$productPriceShown" ,style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),)],
             ),
             SizedBox(//vertical space
-              height: 30.0,
+              height: 10.0,
             ),
             Row(//containing the container with borders with the add and remove buttons
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(//container with borders, with add and remove buttons
                   height: 40.0,
@@ -109,6 +111,11 @@ class _FinalProductTabState extends State<FinalProductTab> {
                     ],
                   ),
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Column(
                   children: <Widget>[
                     RaisedButton(

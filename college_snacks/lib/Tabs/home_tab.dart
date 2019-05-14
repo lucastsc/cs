@@ -6,7 +6,7 @@ class HomeTab extends StatefulWidget {
   _HomeTabState createState() => _HomeTabState();
 }
 
-class _HomeTabState extends State<HomeTab> {
+class _HomeTabState extends State<HomeTab>{
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
@@ -18,7 +18,12 @@ class _HomeTabState extends State<HomeTab> {
         else{
           return CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar( // AppBar that expands itself
+              SliverAppBar(// AppBar that expands itself
+                actions: <Widget>[
+                  IconButton(icon: Icon(Icons.search), onPressed: (){
+                    showSearch(context: context, delegate: DataSearch());
+                  })
+                ],
                   floating: false,
                   pinned: true,
                   snap: false,
@@ -58,6 +63,74 @@ class _HomeTabState extends State<HomeTab> {
           );
         }
       },
+    );
+  }
+}
+
+class DataSearch extends SearchDelegate<String>{
+
+  final restaurants = [];
+
+  final recentRestaurants = [
+    "Jeronimo",
+    "Pizza Hut",
+    "Dona Lenha"
+  ];
+
+  Future<Null> fetchData() async{
+    await Firestore.instance.collection("restaurants").getDocuments().then((query){
+      if(restaurants.isEmpty){
+        for(DocumentSnapshot doc in query.documents){
+          restaurants.add(doc["name"]);
+        }
+      }
+    });
+  }
+
+  @override
+  List<Widget> buildActions(BuildContext context) { // Actions for SearchBar
+    return [
+      IconButton(icon: Icon(Icons.clear), onPressed: (){query = "";},), // query is what the TextField contains at the moment
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) { // Leading Icon on the left of SearchBar
+    return IconButton(
+        icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_arrow, progress: transitionAnimation
+        ), onPressed: (){close(context, null);}
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) { // Show results based on selection
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context){ // Shown when someone searches for something
+
+    fetchData();
+
+    final suggestionList = query.isEmpty ? recentRestaurants :  restaurants.where((p) => p.startsWith(query)).toList();
+
+    return ListView.builder(
+      itemBuilder: (context, index){
+        if(!(restaurants.isEmpty)){
+          return ListTile(
+            leading: Icon(Icons.location_city),
+            title: RichText(text: TextSpan(text: suggestionList[index].substring(0, query.length),
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(text: suggestionList[index].substring(query.length),
+                      style: TextStyle(color: Colors.grey)
+                  )
+                ]
+            )),
+          );
+        }
+      },
+      itemCount: suggestionList.length,
     );
   }
 }

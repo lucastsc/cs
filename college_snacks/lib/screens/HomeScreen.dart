@@ -1,5 +1,6 @@
 import 'package:college_snacks/Tabs/home_tab.dart';
 import 'package:college_snacks/Widgets/CustomDrawer.dart';
+import 'package:college_snacks/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
             centerTitle: true,
           ),
           drawer: CustomDrawer(pageController),
-          body: Container(color: Colors.red,),
+          body: CartScreen(),
         ),
         Scaffold(
           appBar: AppBar(

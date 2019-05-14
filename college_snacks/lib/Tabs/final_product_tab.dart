@@ -1,4 +1,8 @@
+import 'package:college_snacks/datas/cart_product.dart';
 import 'package:college_snacks/datas/product_data.dart';
+import 'package:college_snacks/models/cart_model.dart';
+import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class FinalProductTab extends StatefulWidget {
@@ -31,9 +35,6 @@ class _FinalProductTabState extends State<FinalProductTab> {
       totalPrice = productPrice*quantity;
       totalPriceShown = totalPrice.toStringAsFixed(2);
     }
-
-
-
 
     return Scaffold(
       appBar: AppBar(),
@@ -120,7 +121,18 @@ class _FinalProductTabState extends State<FinalProductTab> {
                   children: <Widget>[
                     RaisedButton(
                       child: Text("Adicionar ao carrinho"),
-                      onPressed: () {},
+                      onPressed: () {
+                        if(UserModel.of(context).isLoggedIn()){
+                          //adicionar ao carrinho
+                          CartProduct cartProduct = CartProduct();
+                          cartProduct.quantity = 1;
+                          cartProduct.pid = widget.productData.id;
+
+                          CartModel.of(context).addCartItem(cartProduct);
+                        }else{
+                          Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LoginScreen()));
+                        }
+                      },
                     ),
                     Text("Total: R\$: $totalPriceShown",style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),)
                   ],

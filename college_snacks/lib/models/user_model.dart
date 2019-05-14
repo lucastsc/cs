@@ -17,6 +17,9 @@ class UserModel extends Model{
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context)=>
+      ScopedModel.of<UserModel>(context);
+
   //current user
   void signUp({@required Map<String,dynamic> userData,@required String password,@required VoidCallback onSuccess,@required VoidCallback onFail}){
     isLoading = true;
@@ -86,5 +89,6 @@ class UserModel extends Model{
     this.userData = userData;
     await Firestore.instance.collection("users").document(firebaseUser.uid).setData(userData); //saving userData on Firebase
   }
+
 
 }

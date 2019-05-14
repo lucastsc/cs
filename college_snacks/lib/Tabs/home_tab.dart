@@ -1,3 +1,5 @@
+import 'package:college_snacks/Tabs/restaurant_tab.dart';
+import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,11 +8,14 @@ class HomeTab extends StatefulWidget {
   _HomeTabState createState() => _HomeTabState();
 }
 
-class _HomeTabState extends State<HomeTab>{
+class _HomeTabState extends State<HomeTab> {
+
+  RestaurantData selectedRestaurant;//create the object restaurant.It will contain all the fields of a restaurant.See "restaurant_data".
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-      future: Firestore.instance.collection("images").getDocuments(),
+      future: Firestore.instance.collection("restaurants").getDocuments(),
       builder: (context, snapshot){
         if(!snapshot.hasData){
           return Center(child: CircularProgressIndicator(),);
@@ -52,8 +57,14 @@ class _HomeTabState extends State<HomeTab>{
                     margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
                     height: 150,
                     width: 200,
-                    child: Card(
-                      child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                    child: GestureDetector(
+                      child: Card(
+                        child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                      ),
+                      onTap: (){
+                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
+                      },
                     ),
                   );
                 }, childCount: snapshot.data.documents.length

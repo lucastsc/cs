@@ -9,7 +9,7 @@ class CartTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Text(cartProduct.productData.name)
+      child: Text(cartProduct.productData.name)//todo: need to verify this line cartProduct.productData is null
     );
   }
 }

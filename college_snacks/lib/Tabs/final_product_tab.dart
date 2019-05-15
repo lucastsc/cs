@@ -123,7 +123,7 @@ class _FinalProductTabState extends State<FinalProductTab> {
                       child: Text("Adicionar ao carrinho"),
                       onPressed: () {
                         if(UserModel.of(context).isLoggedIn()){
-                          //adicionar ao carrinho
+                          //add to the cart
                           CartProduct cartProduct = CartProduct();
                           cartProduct.quantity = 1;
                           cartProduct.pid = widget.productData.id;

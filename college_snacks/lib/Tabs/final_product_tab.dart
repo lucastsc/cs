@@ -1,16 +1,23 @@
+import 'package:college_snacks/datas/cart_product.dart';
 import 'package:college_snacks/datas/product_data.dart';
+import 'package:college_snacks/models/cart_model.dart';
+import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class FinalProductTab extends StatefulWidget {
-  ProductData productData;
+  final ProductData product;
 
-  FinalProductTab(this.productData);
+  FinalProductTab(this.product);
 
   @override
-  _FinalProductTabState createState() => _FinalProductTabState();
+  _FinalProductTabState createState() => _FinalProductTabState(product);
 }
 
 class _FinalProductTabState extends State<FinalProductTab> {
+
+  final ProductData product;
+  _FinalProductTabState(this.product);
 
   int quantity = 1;
   String productPriceShown;
@@ -20,7 +27,7 @@ class _FinalProductTabState extends State<FinalProductTab> {
   @override
   Widget build(BuildContext context) {
 
-    double productPrice = widget.productData.price;//price of the product
+    double productPrice = product.price;//price of the product
 
 
     if(productPrice == null){
@@ -31,9 +38,6 @@ class _FinalProductTabState extends State<FinalProductTab> {
       totalPrice = productPrice*quantity;
       totalPriceShown = totalPrice.toStringAsFixed(2);
     }
-
-
-
 
     return Scaffold(
       appBar: AppBar(),
@@ -48,13 +52,13 @@ class _FinalProductTabState extends State<FinalProductTab> {
                   height: 200.0,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(widget.productData.url))),
+                          image: NetworkImage(product.url))),
                 )
               ],
             ),
             Row(//row containing the description of the product
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Text(widget.productData.description,style: TextStyle(fontSize: 18.0),)],
+              children: <Widget>[Text(product.description,style: TextStyle(fontSize: 18.0),)],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +124,19 @@ class _FinalProductTabState extends State<FinalProductTab> {
                   children: <Widget>[
                     RaisedButton(
                       child: Text("Adicionar ao carrinho"),
-                      onPressed: () {},
+                      onPressed: () {
+                        if(UserModel.of(context).isLoggedIn()){
+                          //add to the cart
+                          CartProduct cartProduct = CartProduct();
+                          cartProduct.quantity = 1;
+                          cartProduct.pid = product.id;
+                          cartProduct.productData = product;
+
+                          CartModel.of(context).addCartItem(cartProduct);
+                        }else{
+                          Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LoginScreen()));
+                        }
+                      },
                     ),
                     Text("Total: R\$: $totalPriceShown",style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),)
                   ],

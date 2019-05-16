@@ -6,10 +6,31 @@ class CartTile extends StatelessWidget {
   final CartProduct cartProduct;
   CartTile(this.cartProduct);
 
+
   @override
   Widget build(BuildContext context) {
+
+    print(cartProduct.productData.quantity);
     return Card(
-      child: Text(cartProduct.productData.name)//todo: need to verify this line cartProduct.productData is null
+      child: ListTile(
+        leading: Container(
+          width: 50.0,
+          height: 50.0,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(cartProduct.productData.url)
+              )
+          ),
+        ),
+        title: Text(cartProduct.productData.name),
+        subtitle: Text(cartProduct.productData.description),
+        trailing: /*Icon(Icons.keyboard_arrow_right),*/Column(
+          children: <Widget>[
+            Text("Quantidade:"),
+            Text("${cartProduct.quantity}")
+          ],
+        )
+      ),
     );
   }
 }

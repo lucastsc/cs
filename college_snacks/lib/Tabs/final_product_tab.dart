@@ -128,7 +128,7 @@ class _FinalProductTabState extends State<FinalProductTab> {
                         if(UserModel.of(context).isLoggedIn()){
                           //add to the cart
                           CartProduct cartProduct = CartProduct();
-                          cartProduct.quantity = 1;
+                          cartProduct.quantity = quantity;
                           cartProduct.pid = product.id;
                           cartProduct.productData = product;
 

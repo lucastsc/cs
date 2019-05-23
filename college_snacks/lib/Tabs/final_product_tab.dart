@@ -1,4 +1,5 @@
 import 'package:college_snacks/datas/cart_product.dart';
+import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
 import 'package:college_snacks/models/cart_model.dart';
 import 'package:college_snacks/models/user_model.dart';
@@ -7,22 +8,26 @@ import 'package:flutter/material.dart';
 
 class FinalProductTab extends StatefulWidget {
   final ProductData product;
+  final CategoryData category;
 
-  FinalProductTab(this.product);
+  FinalProductTab(this.product, this.category);
 
   @override
-  _FinalProductTabState createState() => _FinalProductTabState(product);
+  _FinalProductTabState createState() => _FinalProductTabState(product, category);
 }
 
 class _FinalProductTabState extends State<FinalProductTab> {
 
   final ProductData product;
-  _FinalProductTabState(this.product);
+  final CategoryData  category;
+  _FinalProductTabState(this.product, this.category);
+
 
   int quantity = 1;
   String productPriceShown;
   double totalPrice;
   String totalPriceShown;
+  final GlobalKey<ScaffoldState> scaffKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class _FinalProductTabState extends State<FinalProductTab> {
     }
 
     return Scaffold(
+      key: scaffKey,
       appBar: AppBar(),
       body: Container(
         child: Column(
@@ -130,8 +136,12 @@ class _FinalProductTabState extends State<FinalProductTab> {
                           CartProduct cartProduct = CartProduct();
                           cartProduct.quantity = quantity;
                           cartProduct.pid = product.id;
+                          cartProduct.category = category.id; // product category id
                           cartProduct.productData = product;
 
+                          scaffKey.currentState.showSnackBar(
+                              SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
+                          );
                           CartModel.of(context).addCartItem(cartProduct);
                         }else{
                           Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LoginScreen()));

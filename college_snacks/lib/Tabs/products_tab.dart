@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class ProductsTab extends StatelessWidget {
 
   //final String categoryName;
-  CategoryData categoryData;
+  final CategoryData categoryData;
   final RestaurantData selectedRestaurant;
   ProductData productData;
 
@@ -34,7 +34,7 @@ class ProductsTab extends StatelessWidget {
                   child: ProductTile(product),//ProductTile contains the way the doc info will be displayed on the ListView
                   onTap: (){
                     productData = ProductData.fromDocument(product);
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => FinalProductTab(productData)));
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => FinalProductTab(productData, categoryData)));
                   },
                 );
               }).toList(),

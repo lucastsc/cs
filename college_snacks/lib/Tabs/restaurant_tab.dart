@@ -6,8 +6,8 @@ import 'package:college_snacks/tiles/category_tile.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantTab extends StatelessWidget {
-  String categoryName; //bebidas,refeicoes,sanduiches...
-  String restaurantName;
+  //String categoryName; //bebidas,refeicoes,sanduiches...
+  //String restaurantName;
   CategoryData categoryData;
 
   RestaurantData selectedRestaurant;

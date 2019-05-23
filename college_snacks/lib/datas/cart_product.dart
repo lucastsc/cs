@@ -23,7 +23,7 @@ class CartProduct{
       "category":category,
       "pid":pid,
       "quantity":quantity,
-      "product":productData.toResumedMap() //todo: need to verify this line.toResumedMap 'was called on null'
+      //"product":productData.toResumedMap() //todo: need to verify this line. toResumedMap 'was called on null'
     };
   }
 }

@@ -13,6 +13,6 @@ class RestaurantData{
     cnpj = snapshot.data["cnpj"];
     name = snapshot.data["name"];
     searchKey = snapshot.data["searchKey"];
-    cnpj = snapshot.data["url"];
+    url = snapshot.data["url"];
   }
 }

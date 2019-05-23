@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartModel extends Model{
+
   UserModel user;
   List<CartProduct> products =[];
   bool isLoading = false;
-  CartModel(this.user);
+
+  CartModel(this.user){
+    loadCart();
+  }
 
   static CartModel of(BuildContext context)=>
       ScopedModel.of<CartModel>(context);
@@ -29,4 +33,18 @@ class CartModel extends Model{
     products.remove(cartProduct);
     notifyListeners();
   }
+
+  Future<Null> loadCart() async{ // fetch the data of the user cart and store it on product List.
+    Future.delayed(Duration(seconds: 1)).then((v) async{
+      if(user.firebaseUser != null){
+
+        QuerySnapshot docs;
+        docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
+        products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
+
+        notifyListeners();
+      }
+    });
+  }
+
 }

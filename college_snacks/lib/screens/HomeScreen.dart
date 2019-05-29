@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Scaffold(
-          drawer: CustomDrawer(pageController), // Still need to create
+          drawer: CustomDrawer(pageController),
           backgroundColor: Colors.black,
           body: HomeTab()
         ),

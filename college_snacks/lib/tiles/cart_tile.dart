@@ -1,5 +1,6 @@
 import 'package:college_snacks/datas/cart_product.dart';
 import 'package:college_snacks/datas/product_data.dart';
+import 'package:college_snacks/models/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,6 +13,9 @@ class CartTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.symmetric(
+        horizontal: 8.0, vertical: 4.0
+      ),
         child: cartProduct.productData == null ?
         FutureBuilder<DocumentSnapshot>(
           future: Firestore.instance.collection("restaurants").document("restaurante1").collection("cardapio").document(cartProduct.category).collection("itens").document(cartProduct.pid).get(),

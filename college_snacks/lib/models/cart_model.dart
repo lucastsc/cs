@@ -9,6 +9,10 @@ class CartModel extends Model{
   UserModel user;
   List<CartProduct> products =[];
   bool isLoading = false;
+  String couponCode;
+  int discountPercentage;
+  
+  double cartFinalPrice;
 
   CartModel(this.user){
     loadCart();
@@ -34,10 +38,14 @@ class CartModel extends Model{
     notifyListeners();
   }
 
-  Future<Null> loadCart() async{ // fetch the data of the user cart and store it on product List.
-    Future.delayed(Duration(seconds: 1)).then((v) async{
-      if(user.firebaseUser != null){
+  void setCoupon(String couponCode, int discountPercentage){
+    this.couponCode = couponCode;
+    this.discountPercentage = discountPercentage;
+  }
 
+  Future<Null> loadCart() async{ // fetch the data of the user cart and store it on product List.
+    Future.delayed(Duration(seconds: 1)).then((v) async{ // delayed to wait the user to get loaded
+      if(user.firebaseUser != null){
         QuerySnapshot docs;
         docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
         products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
@@ -45,6 +53,25 @@ class CartModel extends Model{
         notifyListeners();
       }
     });
+  }
+
+  double getProductsPrice() { // don't need to access dataBase
+    double price = 0.0;
+    for(CartProduct c in products){
+      if(c.productData != null){
+        price += c.quantity * c.productData.price;
+        print(price);
+      }
+    }
+    return price;
+  }
+
+  double getDiscount(){
+    return (getProductsPrice()*discountPercentage/100);
+  }
+
+  void updatePrices(){
+    notifyListeners();
   }
 
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Tabs/products_tab.dart';
+import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/tiles/category_tile.dart';
@@ -19,6 +20,7 @@ class RestaurantTab extends StatelessWidget {
       appBar: AppBar(
         title: Text(selectedRestaurant.name),
       ),
+      floatingActionButton: CustomButton(),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("restaurants")

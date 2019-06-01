@@ -2,10 +2,16 @@ import 'package:college_snacks/models/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class OrderResumeCard extends StatelessWidget {
+class OrderResumeCard extends StatefulWidget {
 
   final VoidCallback buy;
   OrderResumeCard(this.buy);
+
+  @override
+  _OrderResumeCardState createState() => _OrderResumeCardState();
+}
+
+class _OrderResumeCardState extends State<OrderResumeCard> {
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,7 @@ class OrderResumeCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Total", style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text("R\$: ${(price-discount).toStringAsFixed(2)}", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),),
+                    Text("R\$: ${(price - discount).toStringAsFixed(2)}", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),),
                   ],
                 ),
                 SizedBox(height: 8,),
@@ -61,7 +67,7 @@ class OrderResumeCard extends StatelessWidget {
                   child: Text("Finalizar pedido"),
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  onPressed: buy,
+                  onPressed: widget.buy,
                 )
               ],
             );
@@ -71,4 +77,5 @@ class OrderResumeCard extends StatelessWidget {
     );
   }
 }
+
 

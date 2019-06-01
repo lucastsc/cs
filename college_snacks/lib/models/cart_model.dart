@@ -11,7 +11,7 @@ class CartModel extends Model{
   bool isLoading = false;
   String couponCode;
   int discountPercentage = 0;
-  
+
   double cartFinalPrice;
 
   CartModel(this.user){
@@ -65,9 +65,26 @@ class CartModel extends Model{
     return price;
   }
 
-  double getDiscount(){
+  /*double getDiscount(){
+    Firestore.instance.collection('coupons').snapshots().listen((data){
+      discountPercentage = data.documents[0]["percentage"];
+    });
+    print(discountPercentage);
+
+
     return getProductsPrice() * discountPercentage / 100;
+  }*/
+
+  dynamic getDiscount() async {//todo:trying to retrieve the coupon percentage from firebase,but it conflicts with order_resume_card.dart
+    var snapshot = await Firestore.instance
+        .collection("coupons")
+        .document("SHALLOWNOW")
+        .get();
+    print(snapshot["percentage"]);
+    return snapshot["percentage"];
   }
+
+
 
   void updatePrices(){ // function to fix the loading prices problem
     notifyListeners();
@@ -80,14 +97,14 @@ class CartModel extends Model{
     notifyListeners();
 
     double productsPrice = getProductsPrice();
-    double discount = getDiscount();
+    Future<double> discount = getDiscount();
 
     DocumentReference refOrder = await Firestore.instance.collection("orders").add({ // refOrder holds the new document created id
       "clientID" : user.firebaseUser.uid,
       "products" : products.map((cartProduct)=>cartProduct.toMap()).toList(),
       "productsPrice" : productsPrice,
       "discount" : discount,
-      "finalPrice" : productsPrice - discount,
+      "finalPrice" : productsPrice - await discount,
       "status" : 1 // the initial status of an order is '1'. It is waiting for restaurant confirmation... There will be 4 steps.
 
     });

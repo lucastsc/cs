@@ -10,7 +10,7 @@ class CartModel extends Model{
   List<CartProduct> products =[];
   bool isLoading = false;
   String couponCode;
-  int discountPercentage;
+  int discountPercentage = 0;
   
   double cartFinalPrice;
 
@@ -60,18 +60,58 @@ class CartModel extends Model{
     for(CartProduct c in products){
       if(c.productData != null){
         price += c.quantity * c.productData.price;
-        print(price);
       }
     }
     return price;
   }
 
   double getDiscount(){
-    return (getProductsPrice()*discountPercentage/100);
+    return getProductsPrice() * discountPercentage / 100;
   }
 
-  void updatePrices(){
+  void updatePrices(){ // function to fix the loading prices problem
     notifyListeners();
+  }
+
+  Future<String> finishOrder() async{ // function to finish the order and add it to dataBase
+    if(products.length == 0) return null;
+
+    isLoading = true;
+    notifyListeners();
+
+    double productsPrice = getProductsPrice();
+    double discount = getDiscount();
+
+    DocumentReference refOrder = await Firestore.instance.collection("orders").add({ // refOrder holds the new document created id
+      "clientID" : user.firebaseUser.uid,
+      "products" : products.map((cartProduct)=>cartProduct.toMap()).toList(),
+      "productsPrice" : productsPrice,
+      "discount" : discount,
+      "finalPrice" : productsPrice - discount,
+      "status" : 1 // the initial status of an order is '1'. It is waiting for restaurant confirmation... There will be 4 steps.
+
+    });
+
+   await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("orders").document(refOrder.documentID).
+      setData({
+        "orderID" : refOrder.documentID
+      });
+
+   QuerySnapshot query = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
+
+   for(DocumentSnapshot doc in query.documents){
+     doc.reference.delete(); // Delete each order document from user cart
+   }
+
+   products.clear();
+
+   couponCode = null;
+   discountPercentage = 0;
+
+   isLoading = false;
+   notifyListeners();
+
+   return refOrder.documentID; // returns the ID of the document created for this order
   }
 
 }

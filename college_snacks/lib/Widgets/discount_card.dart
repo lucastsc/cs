@@ -19,7 +19,7 @@ class DiscountCard extends StatelessWidget {
                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                   hintText: "Digite seu cupom"
               ),
-              initialValue: CartModel.of(context).couponCode ?? "", // If exists, initial value will be the coupon code, otherwise will be null
+              initialValue: CartModel.of(context).couponCode == null ? "" : CartModel.of(context).couponCode, // If exists, initial value will be the coupon code, otherwise will be null
               onFieldSubmitted: (c){ // The coupon must be validated
                 Firestore.instance.collection("coupons").document(c).get().then((docSnap){
                     if(docSnap.data != null){

@@ -52,7 +52,7 @@ class OrderResumeCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Total", style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text("R\$: 0.00", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),),
+                    Text("R\$: ${(price-discount).toStringAsFixed(2)}", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16.0),),
                   ],
                 ),
                 SizedBox(height: 8,),

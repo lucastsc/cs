@@ -6,6 +6,7 @@ class DiscountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2.0,
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       child: ExpansionTile(
         leading: Icon(Icons.card_giftcard, color: Colors.grey[700],),

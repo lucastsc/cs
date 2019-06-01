@@ -3,6 +3,7 @@ import 'package:college_snacks/Widgets/order_resume_card.dart';
 import 'package:college_snacks/models/cart_model.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/login_screen.dart';
+import 'package:college_snacks/screens/order_confirm_screen.dart';
 import 'package:college_snacks/tiles/cart_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -92,7 +93,9 @@ class CartScreen extends StatelessWidget {
               SizedBox(height: 4.0,),
               OrderResumeCard(() async{
                 String orderID = await model.finishOrder();
-                if(orderID != null) print(orderID);
+                if(orderID != null){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderConfirmScreen(orderID))); // go to final confirmation screen
+                } 
               }),
               SizedBox(height: 4.0,),
             ],

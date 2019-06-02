@@ -3,6 +3,10 @@ import 'package:college_snacks/models/cart_model.dart';
 import 'package:flutter/material.dart';
 
 class DiscountCard extends StatelessWidget {
+
+  final Function() notifyParent;//explanation in its next use below
+  DiscountCard({Key key, @required this.notifyParent}) : super(key: key);//the key parameter passed to the constructor is forwarded to the named parameter key of the unnamed constructor of the super class(StatelessWidget)
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,6 +32,8 @@ class DiscountCard extends StatelessWidget {
                       Scaffold.of(context).showSnackBar(SnackBar( duration: Duration(seconds: 2),
                         content: Text("Desconto de ${docSnap.data["percentage"]}% aplicado!"), backgroundColor: Theme.of(context).primaryColor,)
                       );
+
+                      notifyParent();//function created in the discount_card to force setState in the parent Widget (cart_screen)
                     }
                     else{
                       CartModel.of(context).setCoupon(null, 0);

@@ -1,4 +1,5 @@
 import 'package:college_snacks/Tabs/home_tab.dart';
+import 'package:college_snacks/Tabs/my_orders_tab.dart';
 import 'package:college_snacks/Widgets/CustomDrawer.dart';
 import 'package:college_snacks/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,11 @@ class HomeScreen extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Carrinho"), backgroundColor: Theme.of(context).primaryColor,
+            title: Text("Meus pedidos"), backgroundColor: Theme.of(context).primaryColor,
             centerTitle: true,
           ),
           drawer: CustomDrawer(pageController),
-          body: Container(color: Colors.black,),
+          body: MyOrdersTab(),
         )
       ],
     );

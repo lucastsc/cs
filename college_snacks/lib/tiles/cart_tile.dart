@@ -22,6 +22,7 @@ class CartTile extends StatelessWidget {
           builder: (context, snapshot){
             if(snapshot.hasData){
               cartProduct.productData = ProductData.fromDocument(snapshot.data);
+              CartModel.of(context).updatePrices();
               return ListTile(
                   leading: Container(
                     width: 50.0,

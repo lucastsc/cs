@@ -50,6 +50,8 @@ class CartModel extends Model{
         docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
         products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
 
+        print("carreguei os produtos");
+
         notifyListeners();
       }
     });
@@ -66,11 +68,6 @@ class CartModel extends Model{
   }
 
   double getDiscount(){
-    /*Firestore.instance.collection('coupons').snapshots().listen((data){
-      discountPercentage = data.documents[0]["percentage"];
-    });
-    print(discountPercentage);*/
-
     return getProductsPrice() * discountPercentage / 100;
   }
 

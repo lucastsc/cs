@@ -26,6 +26,15 @@ class ExpandableProductTile extends StatelessWidget {
               children: snapshot.data.documents.map((product){
                 productData = ProductData.fromDocument(product);
                 return ExpansionTile(
+                  leading: Container(
+                    width: 50.0,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(product.data["url"])
+                        )
+                    ),
+                  ),
                   title: Text(product.data["name"]),
                   trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[700],),
                   children: <Widget>[

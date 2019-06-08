@@ -27,7 +27,7 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
   String productPriceShown;
   double totalPrice;
   String totalPriceShown;
-  
+
   @override
   Widget build(BuildContext context) {
 
@@ -60,7 +60,7 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
           ),
           Row(//row containing the description of the product
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[Text(product.description,style: TextStyle(fontSize: 18.0),)],
+            children: <Widget>[Expanded(child: Container(margin:EdgeInsets.all(20.0),child: Text(product.description,style: TextStyle(fontSize: 18.0),),),)],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -7,7 +7,7 @@ class ProductData{
   String url;
   String description;
   String quantity;
-  double price;
+  num price;
 
   ProductData.fromDocument(DocumentSnapshot snapshot){
     id = snapshot.documentID;

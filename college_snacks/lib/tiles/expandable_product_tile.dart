@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
+import 'package:college_snacks/tiles/expandable_final_product.dart';
 import 'package:college_snacks/tiles/product_tile.dart';
 import 'package:flutter/material.dart';
 class ExpandableProductTile extends StatelessWidget {
@@ -23,13 +24,23 @@ class ExpandableProductTile extends StatelessWidget {
           }else{
             return Column(
               children: snapshot.data.documents.map((product){
-                return GestureDetector(
+                productData = ProductData.fromDocument(product);
+                return ExpansionTile(
+                  title: Text(product.data["name"]),
+                  trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[700],),
+                  children: <Widget>[
+                    ExpandableFinalProduct(productData,categoryData)
+                  ],
+                );
+
+                /*GestureDetector(
                   child: ProductTile(product),//ProductTile contains the way the doc info will be displayed on the ListView
                   onTap: (){
-                    /*productData = ProductData.fromDocument(product);
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => FinalProductTab(productData, categoryData)));*/
+                    *//*productData = ProductData.fromDocument(product);
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => FinalProductTab(productData, categoryData)));*//*
                   },
-                );
+                );*/
+
               }).toList(),
             );
           }

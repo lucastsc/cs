@@ -65,12 +65,15 @@ class OrderTile extends StatelessWidget {
 
   String _buildProductsText(DocumentSnapshot snapshot){
     String text = "Descrição: \n";
+    double finalPrice = snapshot.data["finalPrice"];
+    double discount = snapshot.data["discount"];
+    
     for(LinkedHashMap map in snapshot.data["products"]){ // LinkedHashMap is a map inside a list of maps
       text += "${map["quantity"]} x ${map["product"]["name"]} (R\$ ${map["product"]["price"].toStringAsFixed(2)}) \n";
     }
     /*text += "Total: R\$ ${snapshot.data["productsPrice"]}";*/
-    text += "Desconto: R\$ ${snapshot.data["discount"]} \n";
-    text += "Total: R\$ ${snapshot.data["finalPrice"]}";
+    text += "Desconto: R\$ ${discount.toStringAsFixed(2)} \n";
+    text += "Total: R\$ ${finalPrice.toStringAsFixed(2)}";
     return text;
   }
 

@@ -29,6 +29,7 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
   String totalPriceShown;
   final GlobalKey<ScaffoldState> scaffKey = new GlobalKey<ScaffoldState>();
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -136,7 +137,7 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
                         cartProduct.category = category.id; // product category id
                         cartProduct.productData = product;
 
-                        scaffKey.currentState.showSnackBar(
+                        scaffKey.currentState.showSnackBar(//todo:How to implement showSnackBar without Scaffold.Look that in this expandable_final_product.dart we've changed the return Scaffold by a return Container...
                             SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
                         );
                         CartModel.of(context).addCartItem(cartProduct);

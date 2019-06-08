@@ -4,6 +4,7 @@ import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/tiles/category_tile.dart';
+import 'package:college_snacks/tiles/expandable_product_tile.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantTab extends StatelessWidget {
@@ -35,14 +36,24 @@ class RestaurantTab extends StatelessWidget {
           } else {
             return ListView(
               children: snapshot.data.documents.map((doc) {
-                return GestureDetector(
+                categoryData = CategoryData.fromDocument(doc);
+                return ExpansionTile(
+                  title: Text(doc.data["name"]),
+                  trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[700],),
+                  children: <Widget>[
+                    ExpandableProductTile(selectedRestaurant,categoryData)
+                  ],
+                );
+
+                /*GestureDetector(
                   child: CategoryTile(doc),//categoryTile has the way the doc will be displayed in the ListView
                   onTap: () {
                     categoryData = CategoryData.fromDocument(doc);
                     //categoryName = doc.documentID;//bebidas,refeicoes,sanduiches...
                     Navigator.push(context,MaterialPageRoute(builder: (context) => ProductsTab(selectedRestaurant, categoryData)));////sends the restaurant object and the categoryName to the ProductsTab
                   },
-                );
+                );*/
+
               }).toList(),
             );
           }

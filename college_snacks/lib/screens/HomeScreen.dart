@@ -8,9 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 PageController pageController = new PageController(); // PageController for PageView
 
 class HomeScreen extends StatelessWidget {
-  @override
 
+  @override
   Widget build(BuildContext context) {
+
     return PageView(// Every child of PageView is a screen
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),

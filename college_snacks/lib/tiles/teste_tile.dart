@@ -41,16 +41,40 @@ class _TesteState extends State<Teste> {
     
     return Material(
       child: InkWell(
-        child: ListTile(
-          leading: Container(
-            width: 50.0,
-            height: 50.0,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(product.url))),
-          ),
-          title: Text(product.name),
-          trailing: Text("R\$: ${productPrice.toStringAsFixed(2)}"),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading:  CircleAvatar(
+                backgroundImage: NetworkImage(product.url),
+              ),
+              title: Text(product.name),
+              trailing: Text("R\$: ${productPrice.toStringAsFixed(2)}"),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 70.0),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.all(Radius.circular(6.0))
+                    ),
+                    child: Text("Adicionar", style: TextStyle(color: Colors.green),),
+                  ),
+                  SizedBox(width: 10.0,),
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.all(Radius.circular(6.0))
+                    ),
+                    child: Text("Personalizar", style: TextStyle(color: Colors.green),),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => AddOrderScreen(product)));

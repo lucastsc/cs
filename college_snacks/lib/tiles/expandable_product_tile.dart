@@ -8,6 +8,7 @@ class ExpandableProductTile extends StatelessWidget {
 
   final CategoryData categoryData;
   final RestaurantData selectedRestaurant;
+
   ProductData productData;
 
   ExpandableProductTile(this.selectedRestaurant,this.categoryData);//constructor
@@ -24,7 +25,7 @@ class ExpandableProductTile extends StatelessWidget {
             return Column(
               children: snapshot.data.documents.map((product){
                 productData = ProductData.fromDocument(product);
-                return Teste(productData, categoryData);
+                return Teste(productData, categoryData, selectedRestaurant);
               }).toList(),
             );
           }

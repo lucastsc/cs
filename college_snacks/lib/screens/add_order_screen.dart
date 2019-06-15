@@ -80,21 +80,27 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
             FutureBuilder<QuerySnapshot>(
               future: Firestore.instance.collection("restaurants").document(restaurantData.id).collection("cardapio").document(category.id).collection("itens").getDocuments(),
               builder: (context, snapshot){
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index){
+                if(!snapshot.hasData){
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }else{
+                  return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index){
 
-                    List<String> optionalList = snapshot.data.documents[index]["optional"];
+                        List<String> optionalList = snapshot.data.documents[index]["optional"];
 
-                    return ListView(
-                      children: optionalList.map((listItem){
-                        return ListTile(
-                          title: Text(listItem),
+                        return ListView(
+                          children: optionalList.map((listItem){
+                            return ListTile(
+                              title: Text(listItem),
+                            );
+                          }).toList(),
                         );
-                      }).toList(),
-                    );
-                  }
-                );
+                      }
+                  );
+                }
               },
             )
           ],

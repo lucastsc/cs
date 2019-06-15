@@ -21,6 +21,8 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   CategoryData category;
   RestaurantData restaurantData;
   _AddOrderScreenState(this.product, this.category, this.restaurantData);
+  int quantity = 1;
+  TextEditingController controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
+                  title:  Text("Detalhes do item", style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic),),
                   centerTitle: true,
                   background: Image.network(
                     product.url, fit: BoxFit.cover,
@@ -77,31 +80,99 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                 ],
               )
             ),
-            FutureBuilder<QuerySnapshot>(
-              future: Firestore.instance.collection("restaurants").document(restaurantData.id).collection("cardapio").document(category.id).collection("itens").getDocuments(),
+            SizedBox(height: 10.0,),
+            FutureBuilder<DocumentSnapshot>(
+              future: Firestore.instance.collection("restaurants").document(restaurantData.id).collection("cardapio").document(category.id).collection("itens").document(product.id).get(),
               builder: (context, snapshot){
                 if(!snapshot.hasData){
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }else{
-                  return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index){
 
-                        List<String> optionalList = snapshot.data.documents[index]["optional"];
+                  List<dynamic> optionalList = snapshot.data["optional"];
 
-                        return ListView(
-                          children: optionalList.map((listItem){
-                            return ListTile(
-                              title: Text(listItem),
-                            );
-                          }).toList(),
+                  return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: optionalList.map((option){
+                        return Container(
+                          height: 30.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(option),
+                              Row(
+                                children: <Widget>[
+                                  Container(//container containing the remove button
+                                    height: 40.0,
+                                    width: 30.0,
+                                    child: FlatButton(
+                                      padding: EdgeInsets.all(0),
+                                      child: Icon(Icons.remove),
+                                      onPressed: () {
+                                        setState(() {
+                                          quantity <= 1 ? quantity = 1 : quantity-=1;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(//to give some space between buttons
+                                    width: 10.0,
+                                  ),
+                                  Text("$quantity"),
+                                  SizedBox(//to give some space between buttons
+                                    width: 10.0,
+                                  ),
+                                  Container(//container containing the remove button
+                                    height: 40.0,
+                                    width: 30.0,
+                                    child: FlatButton(
+                                      padding: EdgeInsets.all(0),
+                                      child: Icon(Icons.add, color: Theme.of(context).primaryColor,),
+                                      onPressed: () {
+                                        setState(() {
+                                          quantity+=1;
+                                        });
+                                      },
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         );
-                      }
+                      }).toList(),
+                    ),
                   );
                 }
               },
+            ),
+            SizedBox(height: 22.0,),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.chat),
+                  SizedBox(width: 12.0,),
+                  Text("Observações para a cozinha?")
+                ],
+              ),
+            ),
+            SizedBox(height: 12.0,),
+            Container(
+              height: 50.0,
+              padding: EdgeInsets.only(right: 16.0, left: 16.0),
+              child: TextField(
+                cursorColor: Colors.black,
+                controller: controller,
+                decoration: InputDecoration(
+
+                    hintText: "Ex; Tirar queijo, molho à parte, etc.",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(0)))
+                ),
+                onSubmitted: (text){},
+              ),
             )
           ],
         )

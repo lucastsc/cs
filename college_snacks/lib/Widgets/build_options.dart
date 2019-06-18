@@ -30,7 +30,7 @@ class _BuildOptionsState extends State<BuildOptions> {
                 width: 30.0,
                 child: FlatButton(
                   padding: EdgeInsets.all(0),
-                  child: quantity == 0 ? null : Icon(Icons.remove),
+                  child: quantity == 0 ? Icon(Icons.remove, color: Colors.grey[200],) : Icon(Icons.remove, color: Theme.of(context).primaryColor,),
                   onPressed: () {
                     setState(() {
                       quantity == 0 ? quantity = 0 : quantity-=1;

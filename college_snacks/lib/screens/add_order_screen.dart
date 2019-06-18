@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_snacks/Widgets/add_remove_box.dart';
 import 'package:college_snacks/Widgets/build_options.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
@@ -22,12 +23,15 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   CategoryData category;
   RestaurantData restaurantData;
   _AddOrderScreenState(this.product, this.category, this.restaurantData);
-  //int quantity = 0;
+  int quantity = 1;
   TextEditingController controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        child: AddRemoveBox(quantity, product)
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -129,7 +133,8 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                 ),
                 onSubmitted: (text){},
               ),
-            )
+            ),
+            SizedBox(height: 20.0,)
           ],
         )
       ),

@@ -54,6 +54,19 @@ class CartModel extends Model{
 
         notifyListeners();
       }
+      else{
+        Future.delayed(Duration(seconds: 2)).then((value) async{  // Function that seems to solve the cart loading issue
+          notifyListeners();
+
+          QuerySnapshot docs;
+          docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
+          products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
+
+          print("carreguei os produtos atrasado");
+
+          notifyListeners();
+        });
+      }
     });
   }
 

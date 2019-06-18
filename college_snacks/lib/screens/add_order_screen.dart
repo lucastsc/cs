@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:college_snacks/Widgets/build_options.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
@@ -21,7 +22,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   CategoryData category;
   RestaurantData restaurantData;
   _AddOrderScreenState(this.product, this.category, this.restaurantData);
-  int quantity = 1;
+  //int quantity = 0;
   TextEditingController controller = new TextEditingController();
 
   @override
@@ -96,52 +97,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
                       children: optionalList.map((option){
-                        return Container(
-                          height: 30.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(option),
-                              Row(
-                                children: <Widget>[
-                                  Container(//container containing the remove button
-                                    height: 40.0,
-                                    width: 30.0,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0),
-                                      child: Icon(Icons.remove),
-                                      onPressed: () {
-                                        setState(() {
-                                          quantity <= 1 ? quantity = 1 : quantity-=1;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(//to give some space between buttons
-                                    width: 10.0,
-                                  ),
-                                  Text("$quantity"),
-                                  SizedBox(//to give some space between buttons
-                                    width: 10.0,
-                                  ),
-                                  Container(//container containing the remove button
-                                    height: 40.0,
-                                    width: 30.0,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0),
-                                      child: Icon(Icons.add, color: Theme.of(context).primaryColor,),
-                                      onPressed: () {
-                                        setState(() {
-                                          quantity+=1;
-                                        });
-                                      },
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        );
+                        return BuildOptions(option);
                       }).toList(),
                     ),
                   );
@@ -180,3 +136,4 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
     );
   }
 }
+

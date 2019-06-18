@@ -30,7 +30,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        child: AddRemoveBox(quantity, product)
+        child: AddRemoveBox(quantity, product, category)
       ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -93,18 +93,24 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                }else{
+                }
+                else{
 
                   List<dynamic> optionalList = snapshot.data["optional"];
 
-                  return Padding(
+                  if(optionalList != null){
+                    return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: optionalList.map((option){
-                        return BuildOptions(option);
-                      }).toList(),
-                    ),
-                  );
+                      child: Column(
+                        children: optionalList.map((option){
+                          return BuildOptions(option);
+                        }).toList(),
+                      ),
+                    );
+                  }
+                  else{
+                    return Text("Don't know what to do here");
+                  }
                 }
               },
             ),

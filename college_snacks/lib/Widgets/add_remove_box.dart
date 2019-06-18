@@ -1,23 +1,30 @@
+import 'package:college_snacks/datas/cart_product.dart';
+import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
+import 'package:college_snacks/models/cart_model.dart';
+import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class AddRemoveBox extends StatefulWidget {
 
   final ProductData product;
+  final CategoryData category;
   final int quantity;
 
-  AddRemoveBox(this.quantity, this.product);
+  AddRemoveBox(this.quantity, this.product, this.category);
 
   @override
-  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product);
+  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category);
 }
 
 class _AddRemoveBoxState extends State<AddRemoveBox> {
 
   final ProductData product;
+  final CategoryData category;
   int quantity;
 
-  _AddRemoveBoxState(this.quantity, this.product);
+  _AddRemoveBoxState(this.quantity, this.product, this.category);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +78,24 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
           ),
           SizedBox(width: 20.0,),
           RaisedButton(
-            onPressed: (){},
+            onPressed: (){
+              if(UserModel.of(context).isLoggedIn()){
+                //add to the cart
+                CartProduct cartProduct = CartProduct();
+                cartProduct.quantity = quantity;
+                cartProduct.pid = product.id;
+                cartProduct.category = category.id; // product category id
+                cartProduct.productData = product;
+
+
+                Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
+                    SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
+                );
+                CartModel.of(context).addCartItem(cartProduct);
+              }else{
+                Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LoginScreen()));
+              }
+            },
             color: Theme.of(context).primaryColor,
             child: Text("Adicionar R\$ ${(product.price*quantity).toStringAsFixed(2)}", style: TextStyle(color: Colors.white),),
           )

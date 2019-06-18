@@ -34,7 +34,6 @@ class CartTile extends StatelessWidget {
                     ),
                   ),
                   title: Text(cartProduct.productData.name),
-                  subtitle: Text(cartProduct.productData.description),
                   trailing: Column(
                     children: <Widget>[
                       Text("Quantidade:"),
@@ -59,7 +58,6 @@ class CartTile extends StatelessWidget {
               ),
             ),
             title: Text(cartProduct.productData.name),
-            subtitle: Text(cartProduct.productData.description),
             trailing: /*Icon(Icons.keyboard_arrow_right),*/Column(
               children: <Widget>[
                 Text("Quantidade:"),

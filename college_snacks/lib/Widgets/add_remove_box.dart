@@ -1,3 +1,4 @@
+import 'package:college_snacks/Widgets/build_options.dart';
 import 'package:college_snacks/datas/cart_product.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
@@ -11,20 +12,22 @@ class AddRemoveBox extends StatefulWidget {
   final ProductData product;
   final CategoryData category;
   final int quantity;
+  final List<String> options;
 
-  AddRemoveBox(this.quantity, this.product, this.category);
+  AddRemoveBox(this.quantity, this.product, this.category, this.options);
 
   @override
-  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category);
+  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category, options);
 }
 
 class _AddRemoveBoxState extends State<AddRemoveBox> {
 
   final ProductData product;
   final CategoryData category;
+  final List<String> options;
   int quantity;
 
-  _AddRemoveBoxState(this.quantity, this.product, this.category);
+  _AddRemoveBoxState(this.quantity, this.product, this.category, this.options);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +89,7 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
                 cartProduct.pid = product.id;
                 cartProduct.category = category.id; // product category id
                 cartProduct.productData = product;
-
+                cartProduct.options = this.options;
 
                 Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
                     SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)

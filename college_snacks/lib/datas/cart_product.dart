@@ -6,6 +6,7 @@ class CartProduct{
   String category;
   String pid;//productID
   int quantity;
+  List<String> options = new List(); // Will hold the possible optionals the user will add to its order
 
   ProductData productData;
 
@@ -23,7 +24,8 @@ class CartProduct{
       "category":category,
       "pid":pid,
       "quantity":quantity,
-      "product":productData.toResumedMap()
+      "product":productData.toResumedMap(),
+      "options": options
     };
   }
 }

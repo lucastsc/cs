@@ -1,19 +1,23 @@
+import 'package:college_snacks/Widgets/add_remove_box.dart';
+import 'package:college_snacks/datas/cart_product.dart';
 import 'package:flutter/material.dart';
 
 class BuildOptions extends StatefulWidget {
 
   final String option;
-  BuildOptions(this.option);
+  final List<String> options;
+  BuildOptions(this.option, this.options);
 
   @override
-  _BuildOptionsState createState() => _BuildOptionsState(option);
+  _BuildOptionsState createState() => _BuildOptionsState(option, options);
 }
 
 class _BuildOptionsState extends State<BuildOptions> {
 
   final String option;
+  final List<String> options;
   int quantity = 0;
-  _BuildOptionsState(this.option);
+  _BuildOptionsState(this.option, this.options);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,9 @@ class _BuildOptionsState extends State<BuildOptions> {
                   onPressed: () {
                     setState(() {
                       quantity == 0 ? quantity = 0 : quantity-=1;
+                      if(quantity == 0){
+                        options.remove(option);
+                      }
                     });
                   },
                 ),
@@ -54,6 +61,7 @@ class _BuildOptionsState extends State<BuildOptions> {
                   onPressed: () {
                     setState(() {
                       quantity = quantity + 1;
+                      options.add(option);
                     });
                   },
                 ),

@@ -54,7 +54,7 @@ class CartModel extends Model{
 
         notifyListeners();
       }
-      else{
+       else{
         Future.delayed(Duration(seconds: 2)).then((value) async{  // Function that seems to solve the cart loading issue
           notifyListeners();
 

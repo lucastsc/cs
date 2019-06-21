@@ -25,12 +25,13 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   _AddOrderScreenState(this.product, this.category, this.restaurantData);
   int quantity = 1;
   TextEditingController controller = new TextEditingController();
+  List<String> options = new List();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        child: AddRemoveBox(quantity, product, category)
+        child: AddRemoveBox(quantity, product, category, options)
       ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -103,7 +104,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: optionalList.map((option){
-                          return BuildOptions(option);
+                          return BuildOptions(option, options);
                         }).toList(),
                       ),
                     );

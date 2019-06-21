@@ -31,7 +31,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        child: AddRemoveBox(quantity, product, category, options)
+        child: AddRemoveBox(quantity, product, category, options, controller)
       ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

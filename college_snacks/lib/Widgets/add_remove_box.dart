@@ -13,11 +13,12 @@ class AddRemoveBox extends StatefulWidget {
   final CategoryData category;
   final int quantity;
   final List<String> options;
+  final TextEditingController observation;
 
-  AddRemoveBox(this.quantity, this.product, this.category, this.options);
+  AddRemoveBox(this.quantity, this.product, this.category, this.options, this.observation);
 
   @override
-  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category, options);
+  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category, options, observation);
 }
 
 class _AddRemoveBoxState extends State<AddRemoveBox> {
@@ -25,9 +26,11 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
   final ProductData product;
   final CategoryData category;
   final List<String> options;
+  final TextEditingController observation;
+  String obsFinal;
   int quantity;
 
-  _AddRemoveBoxState(this.quantity, this.product, this.category, this.options);
+  _AddRemoveBoxState(this.quantity, this.product, this.category, this.options, this.observation);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,10 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
           SizedBox(width: 20.0,),
           RaisedButton(
             onPressed: (){
-              if(UserModel.of(context).isLoggedIn()){
+              if(UserModel.of(context).isLoggedIn() && quantity > 0){
+                setState(() {
+                  obsFinal = observation.text;
+                });
                 //add to the cart
                 CartProduct cartProduct = CartProduct();
                 cartProduct.quantity = quantity;
@@ -90,16 +96,18 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
                 cartProduct.category = category.id; // product category id
                 cartProduct.productData = product;
                 cartProduct.options = this.options;
+                cartProduct.observation = obsFinal;
 
                 Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
                     SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
                 );
                 CartModel.of(context).addCartItem(cartProduct);
-              }else{
+              }
+              else if(!UserModel.of(context).isLoggedIn()){
                 Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LoginScreen()));
               }
             },
-            color: Theme.of(context).primaryColor,
+            color: quantity > 0 ?  Theme.of(context).primaryColor : Colors.grey,
             child: Text("Adicionar R\$ ${(product.price*quantity).toStringAsFixed(2)}", style: TextStyle(color: Colors.white),),
           )
         ],

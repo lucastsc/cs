@@ -3,6 +3,7 @@ import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'dart:async';
 
 void main() => runApp(new MyApp());
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
                     theme: ThemeData(
                         primaryColor: Color.fromRGBO(181, 1, 97, 1)
                     ),
-                    home: HomeScreen(),
+                    home: HomeScreen(),  // Colocarei aqui uma Splash Screen ao invés da HomeScreen, depois organizo novamente.
                     debugShowCheckedModeBanner: false,
                   )//MaterialApp
               );//ScopedModel<CartModel>
@@ -30,5 +31,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 

@@ -129,4 +129,33 @@ class CartModel extends Model{
    return refOrder.documentID; // returns the ID of the document created for this order
   }
 
+  Future<Null> increaseProductQuantity(CartProduct product) async{
+    product.quantity += 1;
+
+    DocumentSnapshot doc = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(product.cid).get();
+
+    doc.reference.updateData(product.toMap());
+
+    notifyListeners(); // refresh screen
+  }
+
+  Future<Null> decreaseProductQuantity(CartProduct product) async{
+    product.quantity -= 1;
+
+    DocumentSnapshot doc = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(product.cid).get();
+
+    doc.reference.updateData(product.toMap());
+
+    notifyListeners(); // refresh screen
+  }
+
+  Future<Null> removeProduct(CartProduct product) async{
+    products.remove(product); // Remove this cartProduct
+
+    DocumentSnapshot doc = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(product.cid).get();
+
+    doc.reference.delete();
+
+    notifyListeners();
+  }
 }

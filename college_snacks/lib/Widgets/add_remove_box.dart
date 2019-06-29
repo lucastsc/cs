@@ -98,10 +98,24 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
                 cartProduct.options = this.options;
                 cartProduct.observation = obsFinal;
 
-                Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
-                    SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
-                );
-                CartModel.of(context).addCartItem(cartProduct);
+
+                //Tests if the cart have the cartProduct.
+                if(CartModel.of(context).getProductsID().contains(cartProduct.pid)){
+                  print("O carrinho já possui o produto ${cartProduct.pid}, ou seja, ${cartProduct.productData.name}");
+                  Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
+                      SnackBar(content: Text("O carrinho já contém este produto!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
+                  );
+                }else{
+                  CartModel.of(context).addCartItem(cartProduct);
+                  Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
+                      SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
+                  );
+                }
+
+
+
+
+
               }
               else if(!UserModel.of(context).isLoggedIn()){
                 Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LoginScreen()));

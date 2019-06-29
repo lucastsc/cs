@@ -80,6 +80,15 @@ class CartModel extends Model{
     return price;
   }
 
+  List<String> getProductsID(){
+    List<String> idsList = [];
+    for(CartProduct c in products){
+      idsList.add(c.pid);
+    }
+    return idsList;
+  }
+
+
   double getDiscount(){
     return getProductsPrice() * discountPercentage / 100;
   }
@@ -158,4 +167,6 @@ class CartModel extends Model{
 
     notifyListeners();
   }
+
+
 }

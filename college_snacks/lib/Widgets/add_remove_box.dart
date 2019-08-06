@@ -90,7 +90,7 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
             onPressed: (){
               if(UserModel.of(context).isLoggedIn() && quantity > 0){
                 setState(() {
-                  obsFinal = observation.text;
+                    obsFinal = observation.text;
                 });
                 //add to the cart
                 CartProduct cartProduct = CartProduct();
@@ -102,23 +102,41 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
                 cartProduct.observation = obsFinal;
                 cartProduct.restaurantID = restaurantData.id;
 
+                Map<String,dynamic> productMap = {
+                  "pid":cartProduct.pid,
+                  "options": cartProduct.options,
+                  "observation": cartProduct.observation
+                };
 
-                //Tests if the cart have the cartProduct.
-                if(CartModel.of(context).getProductsID().contains(cartProduct.pid)){
+                //tests if the cart contains the product with the same pid,options and observation
+                //replaceAll("null","") is necessary because if we add the product to the cart and then restart the app,
+                //the observation field with no text is replaced with null (by default).Then, when converted to string, the contains property
+                // between [] and null doesn't match.
+
+                if(CartModel.of(context).getObjects().toString().replaceAll("null","").contains(productMap.toString())){
                   print("O carrinho já possui o produto ${cartProduct.pid}, ou seja, ${cartProduct.productData.name}");
                   Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
-                      SnackBar(content: Text("O carrinho já contém este produto!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
+                      SnackBar(content: Text("O carrinho já contém este produto!Altere as quantidades direto no carrinho!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
                   );
                 }else{
                   CartModel.of(context).addCartItem(cartProduct);
                   Scaffold.of(context).showSnackBar(//modified this line to use the SnackBar without the Scaffold.We could delete the GlobalKey in the beggining of the file
                       SnackBar(content: Text("Item adicionado com sucesso!"), duration: Duration(seconds: 2),backgroundColor: Theme.of(context).primaryColor,)
                   );
+
                 }
 
 
 
 
+
+
+                /*//Tests if the cart have the cartProduct.
+                if(CartModel.of(context).getProductsID().contains(cartProduct.pid)){
+
+                }else{
+
+                }*/
 
               }
               else if(!UserModel.of(context).isLoggedIn()){

@@ -82,6 +82,23 @@ class CartModel extends Model{
     return idsList;
   }
 
+  List<Map<String,dynamic>> getObjects(){
+    List<Map<String,dynamic>> objectsList = [];
+    for(CartProduct c in products){
+      //{{categoria:bebidas,name:guaraná},{categoria:bebidas,name:coca}}
+
+      Map<String,dynamic> map = {
+        "pid":c.pid,
+        "options": c.options,
+        "observation": c.observation
+      };
+
+      objectsList.add(map);
+    }
+    return objectsList;
+  }
+
+
 
   double getDiscount(){
     return getProductsPrice() * discountPercentage / 100;

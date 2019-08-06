@@ -49,9 +49,6 @@ class CartModel extends Model{
         QuerySnapshot docs;
         docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
         products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
-
-        print("carreguei os produtos");
-
         notifyListeners();
       }
        else{
@@ -61,9 +58,6 @@ class CartModel extends Model{
           QuerySnapshot docs;
           docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
           products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
-
-          print("carreguei os produtos atrasado");
-
           notifyListeners();
         });
       }

@@ -31,7 +31,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        child: AddRemoveBox(quantity, product, category, options, controller)
+        child: AddRemoveBox(quantity, product, category, options, controller, restaurantData)
       ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -130,7 +130,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
             Container(
               height: 50.0,
               padding: EdgeInsets.only(right: 16.0, left: 16.0),
-              child: TextField(
+              child: TextFormField(
                 cursorColor: Colors.black,
                 controller: controller,
                 decoration: InputDecoration(
@@ -138,7 +138,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                     hintText: "Ex; Tirar queijo, molho à parte, etc.",
                     border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(0)))
                 ),
-                onSubmitted: (text){},
+                onFieldSubmitted: (text){},
               ),
             ),
             SizedBox(height: 20.0,)

@@ -2,6 +2,7 @@ import 'package:college_snacks/Widgets/build_options.dart';
 import 'package:college_snacks/datas/cart_product.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/product_data.dart';
+import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/models/cart_model.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/login_screen.dart';
@@ -11,26 +12,28 @@ class AddRemoveBox extends StatefulWidget {
 
   final ProductData product;
   final CategoryData category;
+  final RestaurantData restaurantData;
   final int quantity;
   final List<String> options;
   final TextEditingController observation;
 
-  AddRemoveBox(this.quantity, this.product, this.category, this.options, this.observation);
+  AddRemoveBox(this.quantity, this.product, this.category, this.options, this.observation, this.restaurantData);
 
   @override
-  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category, options, observation);
+  _AddRemoveBoxState createState() => _AddRemoveBoxState(quantity, product, category, options, observation, restaurantData);
 }
 
 class _AddRemoveBoxState extends State<AddRemoveBox> {
 
   final ProductData product;
   final CategoryData category;
+  final RestaurantData restaurantData;
   final List<String> options;
   final TextEditingController observation;
   String obsFinal;
   int quantity;
 
-  _AddRemoveBoxState(this.quantity, this.product, this.category, this.options, this.observation);
+  _AddRemoveBoxState(this.quantity, this.product, this.category, this.options, this.observation, this.restaurantData);
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +100,7 @@ class _AddRemoveBoxState extends State<AddRemoveBox> {
                 cartProduct.productData = product;
                 cartProduct.options = this.options;
                 cartProduct.observation = obsFinal;
+                cartProduct.restaurantID = restaurantData.id;
 
 
                 //Tests if the cart have the cartProduct.

@@ -8,6 +8,8 @@ class CartProduct{
   int quantity;
   List<String> options = new List(); // Will hold the possible optionals the user will add to its order
   String observation; // observation to the kitchen about the order
+  String restaurantID;
+
 
   ProductData productData;
 
@@ -18,6 +20,7 @@ class CartProduct{
     category = document.data["category"];
     pid = document.data["pid"];
     quantity = document.data["quantity"];
+    restaurantID = document.data["restaurantID"];
   }
 
   Map<String,dynamic> toMap(){
@@ -27,7 +30,8 @@ class CartProduct{
       "quantity":quantity,
       "product":productData.toResumedMap(),
       "options": options,
-      "observation": observation
+      "observation": observation,
+      "restaurantID": restaurantID,
     };
   }
 }

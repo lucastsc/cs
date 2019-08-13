@@ -1,3 +1,4 @@
+import 'package:college_snacks/Tabs/add_card_tab.dart';
 import 'package:college_snacks/Widgets/card_images.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,9 @@ class CardSettings extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: (){}
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  AddCardTab()));
+            }
           )
         ],
       ),

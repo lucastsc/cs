@@ -20,7 +20,7 @@ class CardImages extends StatelessWidget {
             child: Swiper(
               itemCount: snapshot.data.length,
               itemWidth: _screenSize.width * 0.75,
-              itemHeight: _screenSize.height * 0.6,
+              itemHeight: _screenSize.height * 0.62,
               layout: SwiperLayout.STACK,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index){
@@ -58,7 +58,7 @@ class CardFrontStyle extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(right: 52.0),
           child: Text(
-            card.cardType,
+            card.cardType != null ? card.cardType : 'CREBITO',
             style: TextStyle(
               color: Colors.white,
               fontSize: 14.0,
@@ -87,18 +87,18 @@ class CardFrontStyle extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(
-                'valid',
+                'Valid',
                 style: TextStyle(color: Colors.white, fontSize: 8.0),
               ),
               Text(
-                'thru',
+                'Thru',
                 style: TextStyle(color: Colors.white, fontSize: 8.0),
               )
             ],
           ),
           SizedBox(width: 5.0,),
           Text(
-            "${card.cardMonth}/${card.cardYear.substring(2 )}",
+            (card.cardMonth != null && card.cardYear != null) ? "${card.cardMonth}/${card.cardYear.substring(2 )}" : '02/2024',
             style: TextStyle(color: Colors.white, fontSize: 16.0),
           )
         ],
@@ -106,9 +106,9 @@ class CardFrontStyle extends StatelessWidget {
     );
 
     final _cardOwner = Padding(
-      padding: EdgeInsets.only(top: 15.0, left: 30.0),
+      padding: EdgeInsets.only(top: 15.0, left: 35.0),
       child: Text(
-        card.cardHolderName,
+        card.cardHolderName != null ? card.cardHolderName.toUpperCase() : 'DEU RUIM IRMAO',
         style: TextStyle(color: Colors.white, fontSize: 18.0),
       ),
     );
@@ -128,7 +128,7 @@ class CardFrontStyle extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 60.0,),
+          SizedBox(width: 55.0,),
           SizedBox(width: 50.0,),
           SizedBox(width: 50.0,)
         ],
@@ -138,7 +138,7 @@ class CardFrontStyle extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        color: Colors.blue
+        color: card.cardColor
       ),
       child: RotatedBox(
         quarterTurns: 3,
@@ -186,7 +186,7 @@ class CardFrontStyle extends StatelessWidget {
   
   Widget _buildNumbers(){
     return Text(
-      card.cardNumber.substring(12),
+        card.cardNumber!=null? card.cardNumber.substring(12) : '0000',
       style: TextStyle(color: Colors.white),
     );
   }

@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class CardModel{
 
   List<CardResults> cardResults;
@@ -20,7 +22,7 @@ class CardResults{
   String cardMonth;
   String cardYear;
   String cardCvv;
-  String cardColor;
+  Color cardColor;
   String cardType;
 
   CardResults({
@@ -42,4 +44,10 @@ class CardResults{
     cardType = json["cardType"];
   }
 
+}
+
+class CardColorModel{
+  bool isSelected;
+  final int cardColor;
+  CardColorModel({@required this.isSelected, @required this.cardColor});
 }

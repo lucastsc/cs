@@ -1,3 +1,4 @@
+import 'package:college_snacks/datas/card_colors.dart';
 import 'package:college_snacks/models/card_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:async';
@@ -15,11 +16,19 @@ class CardBloc{
     var initialData = await rootBundle.loadString('data/initialData.json');
     var decodedJson =  json.decode(initialData);
     _cardResults = CardModel.fromJson(decodedJson).cardResults;
+    for(int i = 0; i<_cardResults.length; i++){
+      _cardResults[i].cardColor = CardColor.baseColors[i];
+    }
     _cardsCollection.sink.add(_cardResults);
   }
 
   CardBloc(){
     initialData();
+  }
+
+  void addCardToList(CardResults newCard){
+    _cardResults.add(newCard);
+    _cardsCollection.sink.add(_cardResults);
   }
 
   void dispose(){

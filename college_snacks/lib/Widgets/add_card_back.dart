@@ -1,12 +1,17 @@
 import 'package:college_snacks/datas/card_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:college_snacks/blocs/card_manage_bloc.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
 
 class CardBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final CardManageBloc bloc = BlocProvider.of<CardManageBloc>(context);
+
     return StreamBuilder<int>(
-      stream: cardManage.cardColorIndexSelected,
+      stream: bloc.cardColorIndexSelected,
+      initialData: 6,
       builder: (context, snapshot){
         return Container(
           decoration: BoxDecoration(
@@ -39,7 +44,7 @@ class CardBack extends StatelessWidget {
                       ),
                       child: Center(
                         child: StreamBuilder<String>(
-                          stream: cardManage.cardCvv,
+                          stream: bloc.cardCvv,
                           builder: (context, snapshot){
                             return Text(
                               snapshot.hasData ? snapshot.data : '',

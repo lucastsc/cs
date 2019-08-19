@@ -29,7 +29,7 @@ dependencies:
   flutter_cielo: ^1.0.7
   rxdart: ^0.19.0
   flutter_swiper: ^1.1.4
-  bloc_pattern: ^1.0.3
+  bloc_pattern: ^2.2.3 # 1.0.3
 
 dev_dependencies:
   flutter_test:

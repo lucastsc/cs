@@ -1,8 +1,8 @@
-import 'package:college_snacks/blocs/card_bloc.dart';
+import 'package:college_snacks/Tabs/card_settings_tab.dart';
 import 'package:college_snacks/blocs/card_manage_bloc.dart';
 import 'package:college_snacks/screens/card_create_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
 
 class AddCardTab extends StatelessWidget{
   @override
@@ -28,7 +28,7 @@ class AddCardTab extends StatelessWidget{
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.clear), onPressed: (){Navigator.of(context).pop();}),
+        leading: IconButton(icon: Icon(Icons.clear), onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => CardSettings()));}),
         title: Text("Adicionar pagamento"),
         centerTitle: true,
       ),
@@ -60,11 +60,11 @@ class AddCardTab extends StatelessWidget{
         elevation: 1.0,
         onPressed: (){
           var blocProviderCardCreate = BlocProvider(
-            child: CardCreate(),
             bloc: CardManageBloc(),
+            child: CardCreate(),
           );
           blocProviderCardCreate.bloc.selectCardType(buttonText);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => blocProviderCardCreate));// STOPPED HERE
+          Navigator.push(context, MaterialPageRoute(builder: (context) => blocProviderCardCreate));
         },
         child: Text(buttonText, style: TextStyle(color: textColor),),
       ),

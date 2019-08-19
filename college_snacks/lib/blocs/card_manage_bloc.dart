@@ -4,27 +4,27 @@ import 'package:college_snacks/datas/card_colors.dart';
 import 'package:college_snacks/models/card_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:college_snacks/blocs/validators.dart';
-import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
 
-class CardManageBloc extends BlocBase with Validators{
+class CardManageBloc with Validators implements BlocBase{
   //Bloc to manage cards (e.g add a new one)
 
-  final _cardHolderName = BehaviorSubject<String>();
-  final _cardNumber = BehaviorSubject<String>();
-  final _cardMonth = BehaviorSubject<String>();
-  final _cardYear = BehaviorSubject<String>();
-  final _cardCvv = BehaviorSubject<String>();
-  final _cardType = BehaviorSubject<String>();
-  final _cardColorIndexSelected = BehaviorSubject<int>(seedValue: 0);
+  BehaviorSubject<String> _cardHolderName = BehaviorSubject<String>();
+  BehaviorSubject<String> _cardNumber = BehaviorSubject<String>();
+  BehaviorSubject<String> _cardMonth = BehaviorSubject<String>();
+  BehaviorSubject<String> _cardYear = BehaviorSubject<String>();
+  BehaviorSubject<String> _cardCvv = BehaviorSubject<String>();
+  BehaviorSubject<String> _cardType = BehaviorSubject<String>();
+  BehaviorSubject<int> _cardColorIndexSelected = BehaviorSubject<int>(seedValue: 6);
 
-  final _cardColors = BehaviorSubject<List<CardColorModel>>();
+  BehaviorSubject<List<CardColorModel>> _cardColors = BehaviorSubject<List<CardColorModel>>();
 
   // Add data to stream
-  Sink get changeCardHolderName => _cardHolderName.sink;
-  Sink get changeCardNumber => _cardNumber.sink;
-  Sink get changeCardMonth => _cardMonth.sink;
-  Sink get changeCardYear => _cardYear.sink;
-  Sink get changeCardCvv => _cardCvv.sink;
+  Function(String) get changeCardHolderName => _cardHolderName.sink.add;
+  Function(String) get changeCardNumber => _cardNumber.sink.add;
+  Function(String) get changeCardMonth => _cardMonth.sink.add;
+  Function(String) get changeCardYear => _cardYear.sink.add;
+  Function(String) get changeCardCvv => _cardCvv.sink.add;
   Function(String) get selectCardType => _cardType.sink.add;
 
   // Retrieve data from Stream
@@ -40,6 +40,7 @@ class CardManageBloc extends BlocBase with Validators{
     cardMonth, cardYear, cardCvv, (ch, cn, cm, cy, cv) => true);
 
   void saveCard(){
+    unformatCardNumber();
     final newCard = CardResults(
       cardHolderName: _cardHolderName.value,
       cardNumber: _cardNumber.value,
@@ -50,6 +51,10 @@ class CardManageBloc extends BlocBase with Validators{
       cardType: _cardType.value
     );
     cardListBloc.addCardToList(newCard);
+  }
+
+  void unformatCardNumber(){ // Function to revert the cardNumber format
+    _cardNumber.value = _cardNumber.value.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
   }
 
   void selectCardColor(int colorIndex){

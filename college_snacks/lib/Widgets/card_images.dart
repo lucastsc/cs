@@ -186,7 +186,7 @@ class CardFrontStyle extends StatelessWidget {
   
   Widget _buildNumbers(){
     return Text(
-        card.cardNumber!=null? card.cardNumber.substring(12) : '0000',
+      card.cardNumber!=null? card.cardNumber.substring(12) : '0000',
       style: TextStyle(color: Colors.white),
     );
   }

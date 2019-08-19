@@ -1,13 +1,16 @@
 import 'package:college_snacks/blocs/card_manage_bloc.dart';
 import 'package:college_snacks/datas/card_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
 
-class CardFront extends StatelessWidget {
+class CardFront extends StatelessWidget{
   final int rotatedTurnsValue; // to set card horizontal or vertical
   CardFront({this.rotatedTurnsValue});
 
   @override
   Widget build(BuildContext context) {
+
+    final CardManageBloc bloc = BlocProvider.of<CardManageBloc>(context);
 
     final _cardNumber = Padding(
       padding: const EdgeInsets.only(top: 15.0),
@@ -15,7 +18,7 @@ class CardFront extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           StreamBuilder<String>(
-            stream: cardManage.cardNumber, // Se der errado, o erro veio daqui!!!!!!!!!!
+            stream: bloc.cardNumber,
             builder: (context, snapshot){
               return snapshot.hasData ? _formatCardNumber(snapshot.data) :
               _formatCardNumber('0000000000000000');
@@ -28,7 +31,7 @@ class CardFront extends StatelessWidget {
     final _cardLastNumber = Padding(
       padding: const EdgeInsets.only(top: 1.0, left: 35.0),
       child: StreamBuilder<String>(
-        stream: cardManage.cardNumber, // Se der errado, o erro veio daqui!!!!!!!!!!
+        stream: bloc.cardNumber, // Se der errado, o erro veio daqui!!!!!!!!!!
         builder: (context, snapshot){
           return Text(
             snapshot.hasData && snapshot.data.length >= 15 ?
@@ -59,7 +62,7 @@ class CardFront extends StatelessWidget {
           ),
           SizedBox(width: 5.0,),
           StreamBuilder<String>(
-            stream: cardManage.cardMonth,
+            stream: bloc.cardMonth,
             builder: (context, snapshot){
               return Text(
                 snapshot.hasData ? snapshot.data : '00',
@@ -68,7 +71,7 @@ class CardFront extends StatelessWidget {
             },
           ),
           StreamBuilder<String>(
-            stream: cardManage.cardYear,
+            stream: bloc.cardYear,
             builder: (context, snapshot){
               return Text(
                 snapshot.hasData && snapshot.data.length > 2 ?
@@ -84,7 +87,7 @@ class CardFront extends StatelessWidget {
     final _cardOwner = Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 44.0),
       child: StreamBuilder<String>(
-        stream: cardManage.cardHolderName,
+        stream: bloc.cardHolderName,
         builder: (context, snapshot) => Text(
           snapshot?.data ?? 'NOME NO CARTÃO',
           style: TextStyle(color: Colors.white, fontSize: 18.0)
@@ -106,7 +109,7 @@ class CardFront extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 45.0),
             child: StreamBuilder<String>(
-              stream: cardManage.cardType,
+              stream: bloc.cardType,
               builder: (context, snapshot){
                 return Text(
                   snapshot.hasData ? snapshot.data : '',
@@ -141,8 +144,8 @@ class CardFront extends StatelessWidget {
     );
 
     return StreamBuilder<int>(
-      stream: cardManage.cardColorIndexSelected,
-      initialData: 0,
+      stream: bloc.cardColorIndexSelected,
+      initialData: 6,
       builder: (context, snapshot){
         return Container(
           decoration: BoxDecoration(
@@ -194,5 +197,4 @@ class CardFront extends StatelessWidget {
       children: numberList,
     );
   }
-
 }

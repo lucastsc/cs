@@ -5,10 +5,10 @@ import 'package:college_snacks/Widgets/add_card_back.dart';
 import 'package:college_snacks/Widgets/add_card_front.dart';
 import 'package:college_snacks/datas/card_colors.dart';
 import 'package:college_snacks/helpers/formatters.dart';
-import 'package:college_snacks/blocs/card_bloc.dart';
 import 'package:college_snacks/blocs/card_manage_bloc.dart';
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:college_snacks/models/card_model.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
+
 
 class CardCreate extends StatefulWidget{
   @override
@@ -39,6 +39,8 @@ class _CardCreateState extends State<CardCreate> {
   @override
   Widget build(BuildContext context) {
 
+    final CardManageBloc bloc = BlocProvider.of<CardManageBloc>(context);
+
     final _creditCard = Padding(
       padding: const EdgeInsets.only(top: 6.0),
       child: Card(
@@ -54,13 +56,11 @@ class _CardCreateState extends State<CardCreate> {
     );
 
     final _cardHolderName = StreamBuilder<String>(
-      stream: cardManage.cardHolderName,
+      stream: bloc.cardHolderName,
       builder: (context, snapshot){
         return TextField(
           textCapitalization: TextCapitalization.characters,
-          onChanged: (data){
-            cardManage.changeCardHolderName.add(data);
-          },
+          onChanged: bloc.changeCardHolderName,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -76,12 +76,10 @@ class _CardCreateState extends State<CardCreate> {
     final _cardNumber = Padding(
       padding: EdgeInsets.only(top: 16.0),
       child: StreamBuilder<String>(
-        stream: cardManage.cardNumber,
+        stream: bloc.cardNumber,
         builder: (context, snapshot){
           return TextField(
-            onChanged: (data){
-              cardManage.changeCardNumber.add(data);
-            },
+            onChanged: bloc.changeCardNumber,
             keyboardType: TextInputType.text,
             maxLength: 19,
             maxLengthEnforced: true,
@@ -104,14 +102,12 @@ class _CardCreateState extends State<CardCreate> {
     );
 
     final _cardMonth = StreamBuilder<String>(
-      stream: cardManage.cardMonth,
+      stream: bloc.cardMonth,
       builder: (context, snapshot){
         return Container(
           width: 65.0,
           child: TextField(
-            onChanged: (data){
-              cardManage.changeCardMonth.add(data);
-            },
+            onChanged: bloc.changeCardMonth,
             keyboardType: TextInputType.number,
             maxLength: 2,
             maxLengthEnforced: true,
@@ -129,14 +125,12 @@ class _CardCreateState extends State<CardCreate> {
     );
 
     final _cardYear = StreamBuilder<String>(
-      stream: cardManage.cardYear,
+      stream: bloc.cardYear,
       builder: (context, snapshot){
         return Container(
           width: 100.0,
           child: TextField(
-            onChanged: (data){
-              cardManage.changeCardYear.add(data);
-            },
+            onChanged: bloc.changeCardYear,
             keyboardType: TextInputType.number,
             maxLength: 4,
             maxLengthEnforced: true,
@@ -154,15 +148,13 @@ class _CardCreateState extends State<CardCreate> {
     );
 
     final _cardVerificationValue = StreamBuilder<String>(
-      stream: cardManage.cardCvv,
+      stream: bloc.cardCvv,
       builder: (context, snapshot){
         return Container(
           width: 65.0,
           child: TextField(
             focusNode: _focusNode,
-            onChanged: (data){
-              cardManage.changeCardCvv.add(data);
-            },
+            onChanged: bloc.changeCardCvv,
             keyboardType: TextInputType.number,
             maxLength: 3,
             maxLengthEnforced: true,
@@ -180,7 +172,7 @@ class _CardCreateState extends State<CardCreate> {
     );
 
     final _saveCard = StreamBuilder(
-      stream: cardManage.saveCardValid,
+      stream: bloc.saveCardValid,
       builder: (context, snapshot){
         return Container(
           width: MediaQuery.of(context).size.width - 40,
@@ -189,8 +181,8 @@ class _CardCreateState extends State<CardCreate> {
             color: Colors.lightBlue,
             onPressed: snapshot.hasData ? (){
               var blocProviderCardWallet = BlocProvider(
+                bloc: bloc,
                 child: CardWallet(),
-                bloc: CardManageBloc(),
               );
               Navigator.push(context, MaterialPageRoute(builder: (context) => blocProviderCardWallet));
             } : null
@@ -240,7 +232,7 @@ class _CardCreateState extends State<CardCreate> {
                         ],
                       ),
                       SizedBox(height: 20.0,),
-                      cardColors(cardManage),
+                      cardColors(bloc),
                       SizedBox(height: 10.0,),
                       _saveCard
                     ],
@@ -255,39 +247,39 @@ class _CardCreateState extends State<CardCreate> {
   }
 
   Widget cardColors(CardManageBloc bloc){
-    final dotSize = (MediaQuery.of(context).size.width - 220) / CardColor.baseColors.length;
+    final dotSize = (MediaQuery.of(context).size.width - 200) / CardColor.baseColors.length;
 
     List<Widget> dotList = new List<Widget>();
 
     for(var i = 0; i < CardColor.baseColors.length; i++){
       dotList.add(
-        StreamBuilder<List<CardColorModel>>(
-          stream: bloc.cardColorList,
-          builder: (context, snapshot){
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: GestureDetector(
-                onTap: () => cardManage.selectCardColor(i),
-                child: Container(
-                  child: snapshot.hasData ? snapshot.data[i].isSelected ?
-                      Icon(
-                        Icons.check,
-                        color: Colors.white,
-                        size: 12.0,
-                      ) :
-                      Container()
-                      : Container(),
-                  width: dotSize,
-                  height: dotSize,
-                  decoration: BoxDecoration(
-                    color: CardColor.baseColors[i],
-                    shape: BoxShape.circle
+          StreamBuilder<List<CardColorModel>>(
+            stream: bloc.cardColorList,
+            builder: (context, snapshot){
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: GestureDetector(
+                  onTap: () => bloc.selectCardColor(i),
+                  child: Container(
+                    child: snapshot.hasData ? snapshot.data[i].isSelected ?
+                    Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 12.0,
+                    ) :
+                    Container()
+                        : Container(),
+                    width: dotSize,
+                    height: dotSize,
+                    decoration: BoxDecoration(
+                        color: CardColor.baseColors[i],
+                        shape: BoxShape.circle
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        )
+              );
+            },
+          )
       );
     }
 
@@ -296,4 +288,5 @@ class _CardCreateState extends State<CardCreate> {
       children: dotList,
     );
   }
+
 }

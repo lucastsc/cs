@@ -2,7 +2,7 @@ import 'package:college_snacks/Tabs/card_settings_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:college_snacks/Widgets/add_card_front.dart';
 import 'package:college_snacks/blocs/card_manage_bloc.dart';
-import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
 
 class CardWallet extends StatefulWidget {
   @override

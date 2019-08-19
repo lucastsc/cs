@@ -4,8 +4,9 @@ import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
+import 'package:college_snacks/blocs/bloc_provider.dart';
 
-class CardBloc{
+class CardBloc implements BlocBase{
   final _cardsCollection = BehaviorSubject<List<CardResults>>(); // Our Stream Controller, but using nxdart plugin
   List<CardResults> _cardResults;
 

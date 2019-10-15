@@ -1,0 +1,40 @@
+{
+  "cardResults": [
+    {
+      "cardHolderName": "HUGO SALOMÃO",
+      "cardNumber" : "5421131202080611",
+      "cardMonth" : "11",
+      "cardYear" : "2025",
+      "cardCvv" : "127",
+      "cardColor" : null,
+      "cardType" : "CREDIT"
+    },
+    {
+      "cardHolderName": "LEANDRO SALOMÃO",
+      "cardNumber" : "1234123443214321",
+      "cardMonth" : "12",
+      "cardYear" : "2028",
+      "cardCvv" : "157",
+      "cardColor" : null,
+      "cardType" : "CREDIT"
+    },
+    {
+      "cardHolderName": "ANA CAROLINA STUDART",
+      "cardNumber" : "0012343299980987",
+      "cardMonth" : "06",
+      "cardYear" : "2020",
+      "cardCvv" : "221",
+      "cardColor" : null,
+      "cardType" : "CREDIT"
+    },
+    {
+      "cardHolderName": "HELENA M F SZERVINSK",
+      "cardNumber" : "7776545434521234",
+      "cardMonth" : "09",
+      "cardYear" : "2022",
+      "cardCvv" : "999",
+      "cardColor" : null,
+      "cardType" : "DEBIT"
+    }
+  ]
+}

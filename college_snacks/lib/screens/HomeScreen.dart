@@ -2,6 +2,7 @@ import 'package:college_snacks/Tabs/home_tab.dart';
 import 'package:college_snacks/Tabs/my_orders_tab.dart';
 import 'package:college_snacks/Widgets/CustomDrawer.dart';
 import 'package:college_snacks/screens/cart_screen.dart';
+import 'package:college_snacks/screens/user_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -36,6 +37,15 @@ class HomeScreen extends StatelessWidget {
           ),
           drawer: CustomDrawer(pageController),
           body: MyOrdersTab(),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Configurações do perfil"),
+            backgroundColor: Theme.of(context).primaryColor,
+            centerTitle: true,
+          ),
+          drawer: CustomDrawer(pageController),
+          body: UserSettingsScreen(),
         )
       ],
     );

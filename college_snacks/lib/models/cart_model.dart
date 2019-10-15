@@ -49,10 +49,17 @@ class CartModel extends Model{
         QuerySnapshot docs;
         docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
         products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
-
-        print("carreguei os produtos");
-
         notifyListeners();
+      }
+       else{
+        Future.delayed(Duration(seconds: 2)).then((value) async{  // Function that seems to solve the cart loading issue
+          notifyListeners();
+
+          QuerySnapshot docs;
+          docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
+          products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
+          notifyListeners();
+        });
       }
     });
   }
@@ -66,6 +73,32 @@ class CartModel extends Model{
     }
     return price;
   }
+
+  List<String> getProductsID(){
+    List<String> idsList = [];
+    for(CartProduct c in products){
+      idsList.add(c.pid);
+    }
+    return idsList;
+  }
+
+  List<Map<String,dynamic>> getObjects(){
+    List<Map<String,dynamic>> objectsList = [];
+    for(CartProduct c in products){
+      //{{categoria:bebidas,name:guaraná},{categoria:bebidas,name:coca}}
+
+      Map<String,dynamic> map = {
+        "pid":c.pid,
+        "options": c.options,
+        "observation": c.observation
+      };
+
+      objectsList.add(map);
+    }
+    return objectsList;
+  }
+
+
 
   double getDiscount(){
     return getProductsPrice() * discountPercentage / 100;
@@ -115,5 +148,36 @@ class CartModel extends Model{
 
    return refOrder.documentID; // returns the ID of the document created for this order
   }
+
+  Future<Null> increaseProductQuantity(CartProduct product) async{
+    product.quantity += 1;
+
+    DocumentSnapshot doc = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(product.cid).get();
+
+    doc.reference.updateData(product.toMap());
+
+    notifyListeners(); // refresh screen
+  }
+
+  Future<Null> decreaseProductQuantity(CartProduct product) async{
+    product.quantity -= 1;
+
+    DocumentSnapshot doc = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(product.cid).get();
+
+    doc.reference.updateData(product.toMap());
+
+    notifyListeners(); // refresh screen
+  }
+
+  Future<Null> removeProduct(CartProduct product) async{
+    products.remove(product); // Remove this cartProduct
+
+    DocumentSnapshot doc = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(product.cid).get();
+
+    doc.reference.delete();
+
+    notifyListeners();
+  }
+
 
 }

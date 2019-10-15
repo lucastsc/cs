@@ -48,8 +48,8 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: 200.0,
-            height: 200.0,
+            width: 150.0,
+            height: 150.0,
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: NetworkImage(product.url))),
@@ -64,11 +64,11 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
             style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),
           ),
           SizedBox(//vertical space
-            height: 10.0,
+            height: 5.0,
           ),
           Container(//container with borders, with add and remove buttons
             height: 40.0,
-            margin: EdgeInsets.symmetric(horizontal: 110.0, vertical: 15.0),
+            margin: EdgeInsets.symmetric(horizontal: 110.0, vertical: 10.0),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.all(Radius.circular(10.0))
@@ -133,7 +133,9 @@ class _ExpandableFinalProductState extends State<ExpandableFinalProduct> {
               }
             },
           ),
-          Text("Total: R\$: $totalPriceShown",style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),)
+          SizedBox(height: 10.0,),
+          Text("Total: R\$: $totalPriceShown",style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),),
+          SizedBox(height: 10.0,),
         ],
       ),
     );

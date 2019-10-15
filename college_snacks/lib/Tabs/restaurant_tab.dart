@@ -1,19 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:college_snacks/Tabs/products_tab.dart';
 import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
-import 'package:college_snacks/tiles/category_tile.dart';
 import 'package:college_snacks/tiles/expandable_product_tile.dart';
 import 'package:flutter/material.dart';
 
-class RestaurantTab extends StatelessWidget {
+class RestaurantTab extends StatefulWidget {
+
+  final RestaurantData restaurantData;
+  RestaurantTab(this.restaurantData);
+
+  @override
+  _RestaurantTabState createState() => _RestaurantTabState(restaurantData);
+}
+
+class _RestaurantTabState extends State<RestaurantTab> {
   //String categoryName; //bebidas,refeicoes,sanduiches...
   //String restaurantName;
   CategoryData categoryData;
-
   RestaurantData selectedRestaurant;
-  RestaurantTab(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
+
+  _RestaurantTabState(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
+
+  bool expanded = false; // if true is ExpansionTile is expanded, if false is collapsed
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +47,22 @@ class RestaurantTab extends StatelessWidget {
               children: snapshot.data.documents.map((doc) {
                 categoryData = CategoryData.fromDocument(doc);
                 return ExpansionTile(
+                  onExpansionChanged: (value){ // Called when expanded
+                    setState(() {
+                      if(expanded == false){
+                        expanded = true;
+                      }
+                      else{
+                        expanded = false;
+                      }
+                    });
+                  },
                   title: Text(doc.data["name"]),
-                  trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[700],),
+                  trailing: expanded == false ? Icon(Icons.keyboard_arrow_right,color: Colors.grey[700],) : Icon(Icons.keyboard_arrow_down),
                   children: <Widget>[
                     ExpandableProductTile(selectedRestaurant,categoryData)
                   ],
                 );
-
-                /*GestureDetector(
-                  child: CategoryTile(doc),//categoryTile has the way the doc will be displayed in the ListView
-                  onTap: () {
-                    categoryData = CategoryData.fromDocument(doc);
-                    //categoryName = doc.documentID;//bebidas,refeicoes,sanduiches...
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => ProductsTab(selectedRestaurant, categoryData)));////sends the restaurant object and the categoryName to the ProductsTab
-                  },
-                );*/
-
               }).toList(),
             );
           }
@@ -61,7 +70,4 @@ class RestaurantTab extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

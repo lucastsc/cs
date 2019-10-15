@@ -27,20 +27,27 @@ class _CartTileState extends State<CartTile> {
 
   @override
   Widget build(BuildContext context) {
-
-    final key = cartProduct.pid; // Unique identifier to each product. We don't have products with the same name
-
     return Dismissible(
-        key: Key(key), // Unique key to the Widget
+        key: Key(UniqueKey().toString()), // Unique key to the Widget
         direction: DismissDirection.endToStart,
         onDismissed: (direction){
           setState(() {
             CartModel.of(context).removeProduct(cartProduct);
+            //CartModel.of(context).loadCart();
           });
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text("Item removido!"), duration: Duration(seconds: 3),));
         },
-        background: Container(color: Colors.red,),
+        background: Container(
+          color: Colors.red,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Icon(Icons.delete, color: Colors.white, size: 28.0,),
+            ),
+          )
+        ),
         child: Card(
             margin: EdgeInsets.symmetric(
                 horizontal: 8.0, vertical: 4.0
@@ -93,6 +100,7 @@ class _CartTileState extends State<CartTile> {
                     Material(
                       child: InkWell(
                         onTap: (){
+                          print("estou vindo daqui doutor");
                           Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AddOrderScreen(cartProduct.productData, categoryData, restaurantData)));
                         },
                         child: Row(

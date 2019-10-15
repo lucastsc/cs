@@ -30,7 +30,7 @@ class UserModel extends Model{
         email: userData["email"],
         password: password
     ).then((user) async { //if it's ok creating the new user, then...
-      firebaseUser = user;
+      firebaseUser = user.user;
 
       await _saveUserData(userData);//saving userData on Firebase
 
@@ -51,7 +51,7 @@ class UserModel extends Model{
     notifyListeners();
 
     await _auth.signInWithEmailAndPassword(email: email, password: pass).then((user) async{
-      firebaseUser = user;
+      firebaseUser = user.user;
 
       await loadUser();
       onSuccess();

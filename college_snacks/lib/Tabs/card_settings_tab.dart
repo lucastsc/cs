@@ -1,6 +1,5 @@
 import 'package:college_snacks/Tabs/add_card_tab.dart';
 import 'package:college_snacks/Widgets/card_images.dart';
-import 'package:college_snacks/screens/user_settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class CardSettings extends StatelessWidget {

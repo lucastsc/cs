@@ -3,7 +3,7 @@ import 'dart:async';
 class Validators{
   final validateCardHolderName = StreamTransformer<String, String>.fromHandlers(
     handleData: (cardHolderName, sink){
-      RegExp('[a-zA-Z]').hasMatch(cardHolderName) ? sink.add(cardHolderName) : sink.addError('Insira um nome válido');
+      RegExp('[a-zA-Z]').hasMatch(cardHolderName) ? sink.add(cardHolderName.toUpperCase()) : sink.addError('Insira um nome válido');
     }
   );
 

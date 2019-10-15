@@ -28,6 +28,8 @@ class CartModel extends Model{
       cartProduct.cid = doc.documentID;
     });
 
+    loadCart();
+
     notifyListeners();
   }
 

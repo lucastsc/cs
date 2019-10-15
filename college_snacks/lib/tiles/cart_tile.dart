@@ -33,7 +33,6 @@ class _CartTileState extends State<CartTile> {
         onDismissed: (direction){
           setState(() {
             CartModel.of(context).removeProduct(cartProduct);
-            //CartModel.of(context).loadCart();
           });
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text("Item removido!"), duration: Duration(seconds: 3),));

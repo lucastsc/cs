@@ -1,6 +1,5 @@
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/login_screen.dart';
-import 'package:college_snacks/screens/signup_screen.dart';
 import 'package:college_snacks/tiles/drawer_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -16,7 +15,6 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Stack(
         children: <Widget>[
-
           ListView(
             padding: EdgeInsets.only(left: 24.0,top: 16.0),
             children: <Widget>[
@@ -29,9 +27,14 @@ class CustomDrawer extends StatelessWidget {
                     Positioned(
                       top: 8.0,
                       left: 0.0,
-                      child: Text(
+                      child: /*Text(
                         "College\nSnacks",
-                        style: TextStyle(fontSize: 34.0,fontWeight: FontWeight.bold),),
+                        style: TextStyle(fontSize: 34.0,fontWeight: FontWeight.bold),),*/
+                        Container(
+                          height: 90,
+                          width: 160,
+                          child: Image.asset("assets/LogoCSapp2.png", fit: BoxFit.contain),
+                        )
                     ),
                     Positioned(
                       left: 0.0,

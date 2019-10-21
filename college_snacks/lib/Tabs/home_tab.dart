@@ -1,3 +1,4 @@
+import 'package:animated_card/animated_card.dart';
 import 'package:college_snacks/Tabs/restaurant_tab.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,14 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+
+    Color _color = Theme.of(context).primaryColor;
+
     return FutureBuilder<QuerySnapshot>(
       future: Firestore.instance.collection("restaurants").getDocuments(),
       builder: (context, snapshot){
         if(!snapshot.hasData){
-          return Center(child: CircularProgressIndicator(),);
+          return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),);
         }
         else{
           return CustomScrollView(
@@ -53,20 +57,27 @@ class _HomeTabState extends State<HomeTab> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate((context, index){
-                  return Container(
-                    margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
-                    height: 150,
-                    width: 200,
-                    child: GestureDetector(
-                      child: Card(
-                        child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
-                      ),
-                      onTap: (){
-                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
-                      },
-                    ),
+                  return AnimatedCard(
+                      direction: AnimatedCardDirection.left, //Initial animation direction
+                      initDelay: Duration(milliseconds: 0), //Delay to initial animation
+                      duration: Duration(seconds: 2), //Initial animation duration
+                      child: Container(
+                        margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
+                        height: 150,
+                        width: 400,
+                        child: GestureDetector(
+                          child: Card(
+                            color: Colors.blue,
+                            child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                          ),
+                          onTap: (){
+                            selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
+                          },
+                        ),
+                      )
                   );
+                  //snapshot.data.documents[index]["url"]
                 }, childCount: snapshot.data.documents.length
                 ),
               )
@@ -145,3 +156,26 @@ class DataSearch extends SearchDelegate<String>{
     );
   }
 }
+
+/*
+AnimatedCard(
+                      direction: AnimatedCardDirection.left, //Initial animation direction
+                      initDelay: Duration(milliseconds: 0), //Delay to initial animation
+                      duration: Duration(seconds: 2), //Initial animation duration
+                      child: Container(
+                        margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
+                        height: 150,
+                        width: 200,
+                        child: GestureDetector(
+                          child: Card(
+                            color: Colors.blue,
+                            child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                          ),
+                          onTap: (){
+                            selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
+                          },
+                        ),
+                      )
+                  );
+ */

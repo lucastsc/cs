@@ -30,6 +30,7 @@ dependencies:
   rxdart: ^0.19.0
   flutter_swiper: ^1.1.4
   bloc_pattern: ^2.2.3 # 1.0.3
+  animated_card: 1.0.0+8
 
 dev_dependencies:
   flutter_test:

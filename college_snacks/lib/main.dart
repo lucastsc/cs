@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
                     theme: ThemeData(
                         primaryColor: Color.fromRGBO(181, 1, 97, 1)
                     ),
-                    home: HomeScreen(),  // Colocarei aqui uma Splash Screen ao invés da HomeScreen, depois organizo novamente.
+                    home: HomeScreen(),
                     debugShowCheckedModeBanner: false,
                   )//MaterialApp
               );//ScopedModel<CartModel>

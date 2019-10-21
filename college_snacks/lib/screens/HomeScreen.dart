@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configurações do perfil"),
+            title: Text("College Snacks"),
             backgroundColor: Theme.of(context).primaryColor,
             centerTitle: true,
           ),

@@ -20,7 +20,7 @@ class ExpandableProductTile extends StatelessWidget {
         future: Firestore.instance.collection("restaurants").document(selectedRestaurant.id).collection("cardapio").document(categoryData.id).collection("itens").getDocuments(),//products(ex:coca-cola,guaraná,...,
         builder: (context,snapshot){
           if(!snapshot.hasData){
-            return Center(child: CircularProgressIndicator(),);
+            return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),);
           }else{
             return Column(
               children: snapshot.data.documents.map((product){

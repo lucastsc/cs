@@ -38,7 +38,7 @@ class _CartScreenState extends State<CartScreen> {
       body: ScopedModelDescendant<CartModel>(builder: (context, child, model) {
         if (model.isLoading && UserModel.of(context).isLoggedIn()) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),
           );
         } else if (!UserModel.of(context).isLoggedIn()) {
           return Container(

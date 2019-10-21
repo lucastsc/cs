@@ -19,7 +19,7 @@ class OrderTile extends StatelessWidget {
           builder: (context, snapshot){
             if(!snapshot.hasData){
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),
               );
             }
             else{

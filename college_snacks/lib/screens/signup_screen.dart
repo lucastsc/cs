@@ -12,9 +12,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _scaffKey = GlobalKey<ScaffoldState>();
 
   final _nameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _addressController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,27 +40,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(hintText: "Nome Completo"),
+                  decoration: InputDecoration(hintText: "Nome"),
                   validator: (text) {
                     if (text.isEmpty) return "Nome Inválido!";
                   },
                 ),
+                SizedBox(height: 10.0,),
+                TextFormField(
+                  controller: _lastNameController,
+                  decoration: InputDecoration(hintText: "Sobrenome"),
+                  validator: (text) {
+                    if (text.isEmpty) return "Sobrenome Inválido!";
+                  },
+                ),
+                SizedBox(height: 10.0,),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(hintText: "Email"),
                   validator: (text) {
-                    if (text.isEmpty) return "Nome Inválido!";
+                    if (text.isEmpty || !(text.contains("@"))) return "E-mail Inválido!";
                   },
                 ),
-                TextFormField(
-                  controller: _addressController,
-                  obscureText: false,
-                  decoration: InputDecoration(hintText: "Endereço"),
-                  validator: (text) {
-                    if (text.isEmpty)
-                      return "Endereço inválida!";
-                  },
-                ),
+                SizedBox(height: 10.0,),
+                SizedBox(height: 10.0,),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
@@ -69,7 +72,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return "Senha inválida!";
                   },
                 ),
-                SizedBox(height: 20.0,),
+                SizedBox(height: 10.0,),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(hintText: "Confirme sua senha"),
+                  validator: (text) {
+                    if (text.isEmpty || text.length < 6)
+                      return "Senha inválida";
+                    if (_confirmPasswordController.text != _passwordController.text)
+                      return "As senhas digitadas não são iguais!";
+                  },
+                ),
+                SizedBox(height: 30.0,),
                 SizedBox(
                   height: 40.0,
                   child: RaisedButton(
@@ -86,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Map<String, dynamic> userData = {
                           "name": _nameController.text,
                           "email": _emailController.text,
-                          "address": _addressController.text,
+                          "lastName": _lastNameController.text,
                           "stage" : 0
                         };
                         model.signUp(

@@ -15,7 +15,7 @@ class CartModel extends Model{
   double cartFinalPrice;
 
   CartModel(this.user){
-    loadCart();
+    //loadCart();
   }
 
   static CartModel of(BuildContext context)=>

@@ -40,7 +40,7 @@ class _RestaurantTabState extends State<RestaurantTab> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),
             );
           } else {
             return ListView(

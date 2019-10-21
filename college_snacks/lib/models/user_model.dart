@@ -74,11 +74,19 @@ class UserModel extends Model{
 
    Future<Null> loadUser() async{ // Function to recover a logged user from Firebase (when it closes the app, for example)
     if(firebaseUser == null){
+      isLoading = true;
+      notifyListeners();
       firebaseUser = await  _auth.currentUser();
+      isLoading = false;
+      notifyListeners();
     }
     if(firebaseUser != null){
+      isLoading = true;
+      notifyListeners();
       DocumentSnapshot doc = await Firestore.instance.collection("users").document(firebaseUser.uid).get();
       this.userData = doc.data;
+      isLoading = false;
+      notifyListeners();
     }
   }
 

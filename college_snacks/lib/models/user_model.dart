@@ -94,10 +94,14 @@ class UserModel extends Model{
     return firebaseUser != null;
   }
 
-  Future<Null> _saveUserData(Map<String,dynamic> userData) async {//underscore states that the function can only be called inside the class, i.e, internal function
+  Future<Null> updateUser({@required Map<String, dynamic> newData,@required VoidCallback onSuccess, @required VoidCallback onFailed}) async{  // Updates user data when its changed by the user
+    this.userData = newData;
+    await Firestore.instance.collection("üsers").document(firebaseUser.uid).updateData(userData);
+  }
+
+  Future<Null> _saveUserData(Map<String,dynamic> userData) async {
     this.userData = userData;
     await Firestore.instance.collection("users").document(firebaseUser.uid).setData(userData); //saving userData on Firebase
   }
-
 
 }

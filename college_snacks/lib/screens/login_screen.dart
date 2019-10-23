@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         body: ScopedModelDescendant<UserModel>(
             builder: (context, child, model){
-              if(model.isLoading) return Center(child: CircularProgressIndicator(),);
+              if(model.isLoading) return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),);
               return Form(
                   key: _key,
                   child: ListView(

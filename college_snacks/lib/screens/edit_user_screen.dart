@@ -10,13 +10,18 @@ class UserEditScreen extends StatefulWidget {
 class _UserEditScreenState extends State<UserEditScreen> {
 
   GlobalKey<FormState> _key = new GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> _scaffKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final UserModel model = UserModel.of(context);
+    String _name = model.userData["name"];
+    String _lastName = model.userData["lastName"];
+    String _email = model.userData["email"];
     return Form(
         key: _key,
         child: Scaffold(
+          key: _scaffKey,
           appBar: AppBar(
             leading: IconButton(icon: Icon(Icons.close), onPressed: (){Navigator.of(context).pop();}),
             title: Text("Editar cadastro"),
@@ -36,9 +41,14 @@ class _UserEditScreenState extends State<UserEditScreen> {
               ),
               SizedBox(height: 20.0,),
               TextFormField(
-                initialValue: model.userData["name"],
+                initialValue: _name,
+                onFieldSubmitted: (text){
+                  setState(() {
+                    _name = text;
+                  });
+                },
                 validator: (value){
-                  if(!value.isEmpty) return "Insira um nome válido";
+                  if(value.isEmpty) return "Insira um nome válido";
                 },
                 decoration: InputDecoration(
                   labelText: "Nome",
@@ -46,9 +56,14 @@ class _UserEditScreenState extends State<UserEditScreen> {
               ),
               SizedBox(height: 20.0,),
               TextFormField(
-                initialValue: model.userData["lastName"],
+                initialValue: _lastName,
+                onFieldSubmitted: (text){
+                  setState(() {
+                    _lastName = text;
+                  });
+                },
                 validator: (value){
-                  if(!value.isEmpty) return "Insira um sobrenome válido";
+                  if(value.isEmpty) return "Insira um sobrenome válido";
                 },
                 decoration: InputDecoration(
                   labelText: "Sobrenome",
@@ -56,9 +71,14 @@ class _UserEditScreenState extends State<UserEditScreen> {
               ),
               SizedBox(height: 20.0,),
               TextFormField(
-                initialValue: model.userData["email"],
+                initialValue: _email,
+                onFieldSubmitted: (text){
+                  setState(() {
+                    _email = text;
+                  });
+                },
                 validator: (value){
-                  if(!(value.isEmpty) || !(value.contains("@"))) return "Insira um email válido";
+                  if((value.isEmpty) || !(value.contains("@"))) return "Insira um email válido";
                 },
                 decoration: InputDecoration(
                   labelText: "E-mail",
@@ -69,12 +89,9 @@ class _UserEditScreenState extends State<UserEditScreen> {
                 enabled: false,
                 obscureText: true,
                 initialValue: model.userData["name"],
-                validator: (value){
-                  if(!(value.isEmpty) || !(value.contains("@"))) return "Insira um email válido";
-                },
                 decoration: InputDecoration(
                   labelText: "Senha",
-                  fillColor: Colors.grey
+                  labelStyle: TextStyle(color: Colors.grey)
                 ),
               ),
               SizedBox(height: 40.0,),
@@ -83,7 +100,17 @@ class _UserEditScreenState extends State<UserEditScreen> {
                 child: RaisedButton(
                   child: Text("Salvar", style: TextStyle(color: Colors.white, fontSize: 16.0),),
                   color: Theme.of(context).primaryColor,
-                  onPressed: (){} // TODO: implement button functionality and update user data on submitted
+                  onPressed: (){
+                    if(_key.currentState.validate()){
+                      Map<String,dynamic> userData = {
+                        "name": _name,
+                        "lastName": _lastName,
+                        "email": _email,
+                        "stage": 0
+                      };
+                      model.updateUser(newData: userData, onSuccess: _onSuccess, onFailed: _onFail);
+                    }
+                  }
                 ),
               )
             ],
@@ -91,5 +118,17 @@ class _UserEditScreenState extends State<UserEditScreen> {
         )
     );
   }
+
+  void _onSuccess() {
+    _scaffKey.currentState.showSnackBar(SnackBar(content: Text("Dados atualizados com sucesso!"), duration: Duration(seconds: 2),));
+    Future.delayed(Duration(seconds: 2)).then((exit){
+      Navigator.of(context).pop();
+    });
+  }
+
+  void _onFail() {
+    _scaffKey.currentState.showSnackBar(SnackBar(content: Text("Ops, ocorreu um problema :( . Tente novamente!"), duration: Duration(seconds: 2),));
+  }
+
 }
 

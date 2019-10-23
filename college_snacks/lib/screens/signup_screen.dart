@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         builder: (context, child, model) {
           if (model.isLoading) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),
             );
           }
 

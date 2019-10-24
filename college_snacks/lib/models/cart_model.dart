@@ -15,7 +15,7 @@ class CartModel extends Model{
   double cartFinalPrice;
 
   CartModel(this.user){
-    //loadCart();
+    loadCart();
   }
 
   static CartModel of(BuildContext context)=>
@@ -35,8 +35,10 @@ class CartModel extends Model{
 
   void removeCartItem(CartProduct cartProduct){
     Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").document(cartProduct.cid).delete();
+    products.clear();
 
-    products.remove(cartProduct);
+    loadCart();
+
     notifyListeners();
   }
 

@@ -91,7 +91,7 @@ class _CartScreenState extends State<CartScreen> {
             children: <Widget>[
               Column(
                 children: model.products.map((product) {
-                  return CartTile(product);
+                  return CartTile(product, product.pid);
                 }).toList(),
               ),
               DiscountCard(notifyParent: refresh,),

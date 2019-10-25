@@ -38,8 +38,6 @@ class CartModel extends Model{
     products.clear();
 
     loadCart();
-
-    notifyListeners();
   }
 
   void setCoupon(String couponCode, int discountPercentage){
@@ -50,9 +48,12 @@ class CartModel extends Model{
   Future<Null> loadCart() async{ // fetch the data of the user cart and store it on product List.
     Future.delayed(Duration(seconds: 1)).then((v) async{ // delayed to wait the user to get loaded
       if(user.firebaseUser != null){
+        isLoading = true;
+        notifyListeners();
         QuerySnapshot docs;
         docs = await Firestore.instance.collection("users").document(user.firebaseUser.uid).collection("cart").getDocuments();
         products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
+        isLoading = false;
         notifyListeners();
       }
        else{

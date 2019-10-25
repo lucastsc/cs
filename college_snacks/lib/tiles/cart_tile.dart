@@ -12,20 +12,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CartTile extends StatefulWidget {
 
   final CartProduct cartProduct;
-  final String pid;
-  CartTile(this.cartProduct, this.pid);
+  CartTile(this.cartProduct);
 
   @override
-  _CartTileState createState() => _CartTileState(cartProduct, pid);
+  _CartTileState createState() => _CartTileState(cartProduct);
 }
 
 class _CartTileState extends State<CartTile> {
 
   final CartProduct cartProduct;
-  final String pid;
   CategoryData categoryData;
   RestaurantData restaurantData;
-  _CartTileState(this.cartProduct, this.pid);
+  _CartTileState(this.cartProduct);
 
   @override
   Widget build(BuildContext context) {

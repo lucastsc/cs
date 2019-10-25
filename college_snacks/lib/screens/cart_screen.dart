@@ -14,6 +14,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +79,7 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           );
-        } else if (model.products == null || model.products.length == 0) {
+        } else if ((model.products == null || model.products.length == 0)) {
           return Center(
             child: Text(
               "Nenhum produto no carrinho!",
@@ -91,7 +92,7 @@ class _CartScreenState extends State<CartScreen> {
             children: <Widget>[
               Column(
                 children: model.products.map((product) {
-                  return CartTile(product, product.pid);
+                  return CartTile(product);
                 }).toList(),
               ),
               DiscountCard(notifyParent: refresh,),

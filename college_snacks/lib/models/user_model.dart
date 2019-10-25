@@ -94,9 +94,14 @@ class UserModel extends Model{
     return firebaseUser != null;
   }
 
-  Future<Null> updateUser({@required Map<String, dynamic> newData,@required VoidCallback onSuccess, @required VoidCallback onFailed}) async{  // Updates user data when its changed by the user
+  Future<Null> updateUser(Map<String, dynamic> newData, VoidCallback onSuccess) async{  // Updates user data when its changed by the user
+    isLoading = true;
+    notifyListeners();
     this.userData = newData;
-    await Firestore.instance.collection("üsers").document(firebaseUser.uid).updateData(userData);
+    await Firestore.instance.collection("users").document(firebaseUser.uid).setData(userData);
+    onSuccess();
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<Null> _saveUserData(Map<String,dynamic> userData) async {

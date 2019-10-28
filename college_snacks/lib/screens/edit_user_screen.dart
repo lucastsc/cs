@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:college_snacks/Widgets/user_profile_picture.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +9,18 @@ class UserEditScreen extends StatefulWidget {
 }
 
 class _UserEditScreenState extends State<UserEditScreen> {
-
   GlobalKey<FormState> _key = new GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffKey = new GlobalKey<ScaffoldState>();
+  String _name;
+  String _lastName;
+  String _email;
+  bool _changedName = false;
+  bool _changedLastName = false;
+  bool _changedEmail = false;
 
   @override
   Widget build(BuildContext context) {
     UserModel model = UserModel.of(context);
-    String _name = model.userData["name"];
-    String _lastName = model.userData["lastName"];
-    String _email = model.userData["email"];
     return Form(
         key: _key,
         child: Scaffold(
@@ -47,11 +47,10 @@ class _UserEditScreenState extends State<UserEditScreen> {
                   ),
                   SizedBox(height: 20.0,),
                   TextFormField(
-                    initialValue: _name,
-                    onFieldSubmitted: (text){
-                      setState(() {
-                        _name = text;
-                      });
+                    initialValue: model.userData["name"],
+                    onChanged: (value){
+                      _changedName = true;
+                      _name = value;
                     },
                     validator: (value){
                       if(value.isEmpty) return "Insira um nome válido";
@@ -62,11 +61,10 @@ class _UserEditScreenState extends State<UserEditScreen> {
                   ),
                   SizedBox(height: 20.0,),
                   TextFormField(
-                    initialValue: _lastName,
-                    onFieldSubmitted: (text){
-                      setState(() {
-                        _lastName = text;
-                      });
+                    initialValue: model.userData["lastName"],
+                    onChanged: (value){
+                      _changedLastName = true;
+                      _lastName = value;
                     },
                     validator: (value){
                       if(value.isEmpty) return "Insira um sobrenome válido";
@@ -77,11 +75,10 @@ class _UserEditScreenState extends State<UserEditScreen> {
                   ),
                   SizedBox(height: 20.0,),
                   TextFormField(
-                    initialValue: _email,
-                    onFieldSubmitted: (text){
-                      setState(() {
-                        _email = text;
-                      });
+                    initialValue: model.userData["email"],
+                    onChanged: (value){
+                      _changedEmail = true;
+                      _email = value;
                     },
                     validator: (value){
                       if((value.isEmpty) || !(value.contains("@"))) return "Insira um email válido";
@@ -107,14 +104,16 @@ class _UserEditScreenState extends State<UserEditScreen> {
                         child: Text("Salvar", style: TextStyle(color: Colors.white, fontSize: 16.0),),
                         color: Theme.of(context).primaryColor,
                         onPressed: () async{
+                          print(_name);
+                          print(_lastName);
+                          print(_email);
                           if(_key.currentState.validate()){
                             Map<String,dynamic> userData = {
-                              "name": _name,
-                              "lastName": _lastName,
-                              "email": _email,
+                              "name": _changedName ==  true ? _name : model.userData["name"],
+                              "lastName": _changedLastName ==  true ? _lastName : model.userData["lastName"],
+                              "email": _changedEmail == true ? _email : model.userData["email"],
                               "stage": 0
                             };
-                            print(userData["name"]);
                             await model.updateUser(userData, _onSuccess).catchError((e){
                               _onFail();
                             });
@@ -142,7 +141,3 @@ class _UserEditScreenState extends State<UserEditScreen> {
   }
 
 }
-
-/*
-
- */

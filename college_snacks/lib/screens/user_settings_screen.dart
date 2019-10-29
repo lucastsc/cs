@@ -1,8 +1,11 @@
+import 'package:college_snacks/Tabs/card_settings_tab.dart';
+import 'package:college_snacks/Widgets/card_images.dart';
 import 'package:college_snacks/Widgets/user_profile_picture.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/edit_user_screen.dart';
 import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 class UserSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -55,12 +58,13 @@ class UserSettingsScreen extends StatelessWidget {
             padding: EdgeInsets.only(top: 15.0, left: 15.0),
             child: Row(
               children: <Widget>[
-                UserProfilePicture(50.0, 50.0),
+                UserProfilePicture(60.0, 60.0),
                 SizedBox(width: 20.0,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(model.userData["name"], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16.0),),
+                    Text(model.userData["name"], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20.0),),
+                    SizedBox(height: 2.5,),
                     InkWell(
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserEditScreen()));
@@ -68,7 +72,7 @@ class UserSettingsScreen extends StatelessWidget {
                       splashColor: Colors.white, // No colors onTap
                       child: Row(
                         children: <Widget>[
-                          Text("Editar cadastro"),
+                          Text("Editar cadastro", style: TextStyle(fontSize: 16.0),),
                           SizedBox(width: 8.0,),
                           Icon(Icons.settings, color: Color.fromRGBO(133, 137, 138, 1), size: 20.0,)
                         ],
@@ -79,27 +83,34 @@ class UserSettingsScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 10.0,),
-          Card(
-            margin: EdgeInsets.symmetric(horizontal: 15.0),
-            elevation: 3.0,
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.donut_large)
-              ],
-            ),
-          )
+          SizedBox(height: 15.0,),
+          _buildIconTile(Icons.favorite, "Meus favoritos", context),
+          SizedBox(height: 15.0,),
+          _buildIconTile(MaterialCommunityIcons.getIconData("ticket-percent"), "Promoções", context),
+          SizedBox(height: 15.0,),
+          _buildIconTile(MaterialCommunityIcons.getIconData("credit-card-multiple"), "Pagamento", context),
+          SizedBox(height: 12.0,),
+          _buildIconTile(MaterialCommunityIcons.getIconData("information-variant"), "Sobre", context)
         ],
       );
     }
   }
 }
-/*ListTile(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CardSettings()));
-            },
-            leading: Icon(
-              Icons.credit_card, color: Colors.blueAccent,),
-            title: Text("Gerenciar pagamentos"),
-            trailing: Icon(Icons.arrow_forward_ios),
-          ),*/
+
+Widget _buildIconTile(IconData icon, String text, BuildContext context){
+  return InkWell(
+    onTap: (){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CardSettings()));
+    },
+    child: Container(
+      margin: EdgeInsets.only(left: 22.0, top: 20.0),
+      child: Row(
+        children: <Widget>[
+          Icon(icon, size: 33.0,),
+          SizedBox(width: 18.0,),
+          Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),),
+        ],
+      ),
+    ),
+  );
+}

@@ -15,6 +15,7 @@ class UserModel extends Model{
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
   Map<String,dynamic> userData = Map();//will have name, email, user information...
+  Map<String, dynamic> userFavorites = {}; // to handle user favorites
 
   bool isLoading = false;
 

@@ -4,8 +4,10 @@ import 'package:college_snacks/blocs/bloc_provider.dart';
 import 'package:college_snacks/blocs/favorite_bloc.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
+import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/tiles/expandable_product_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 
 class RestaurantTab extends StatefulWidget {
 
@@ -30,13 +32,14 @@ class _RestaurantTabState extends State<RestaurantTab> {
   Widget build(BuildContext context) {
 
     final bloc = BlocProvider.of<FavoriteBloc>(context);
+    final model = UserModel.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedRestaurant.name),
         actions: <Widget>[
           StreamBuilder<Map<String, dynamic>>(
-            initialData: {},
+            initialData: model.userFavorites,
             stream: bloc.outFav,
             builder: (context, snapshot){
               if(snapshot.hasData)
@@ -47,6 +50,8 @@ class _RestaurantTabState extends State<RestaurantTab> {
                       Icon(Icons.favorite) : Icon(Icons.favorite_border),
                     onPressed: (){
                       bloc.toggleFavorite(selectedRestaurant.id);
+                      if(snapshot.data.containsKey(selectedRestaurant.id)) model.userFavorites.remove(selectedRestaurant.id);
+                      else model.userFavorites[selectedRestaurant.id] = true;
                     }
                   ),
                 );

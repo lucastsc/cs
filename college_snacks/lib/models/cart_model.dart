@@ -46,7 +46,7 @@ class CartModel extends Model{
   }
 
   Future<Null> loadCart() async{ // fetch the data of the user cart and store it on product List.
-    Future.delayed(Duration(seconds: 1)).then((v) async{ // delayed to wait the user to get loaded
+    Future.delayed(Duration(seconds: 2)).then((v) async{ // delayed to wait the user to get loaded
       if(user.firebaseUser != null){
         isLoading = true;
         notifyListeners();
@@ -56,8 +56,8 @@ class CartModel extends Model{
         isLoading = false;
         notifyListeners();
       }
-       else{
-        Future.delayed(Duration(seconds: 2)).then((value) async{  // Function that seems to solve the cart loading issue
+       /*else{
+          Future.delayed(Duration(seconds: 3)).then((value) async{  // Function that seems to solve the cart loading issue
           notifyListeners();
 
           QuerySnapshot docs;
@@ -65,7 +65,7 @@ class CartModel extends Model{
           products = docs.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
           notifyListeners();
         });
-      }
+      }*/
     });
   }
 

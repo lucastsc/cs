@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Widgets/custom_button.dart';
+import 'package:college_snacks/blocs/bloc_provider.dart';
+import 'package:college_snacks/blocs/favorite_bloc.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/tiles/expandable_product_tile.dart';
@@ -26,9 +28,32 @@ class _RestaurantTabState extends State<RestaurantTab> {
 
   @override
   Widget build(BuildContext context) {
+
+    final bloc = BlocProvider.of<FavoriteBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedRestaurant.name),
+        actions: <Widget>[
+          StreamBuilder<Map<String, dynamic>>(
+            initialData: {},
+            stream: bloc.outFav,
+            builder: (context, snapshot){
+              if(snapshot.hasData)
+                return Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: IconButton(
+                    icon: snapshot.data.containsKey(selectedRestaurant.id) ?
+                      Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                    onPressed: (){
+                      bloc.toggleFavorite(selectedRestaurant.id);
+                    }
+                  ),
+                );
+              else return CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),);
+            },
+          )
+        ],
       ),
       floatingActionButton: CustomButton(),
       body: FutureBuilder<QuerySnapshot>(

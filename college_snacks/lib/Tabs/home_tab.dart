@@ -15,9 +15,6 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-
-    Color _color = Theme.of(context).primaryColor;
-
     return FutureBuilder<QuerySnapshot>(
       future: Firestore.instance.collection("restaurants").getDocuments(),
       builder: (context, snapshot){

@@ -1,3 +1,5 @@
+import 'package:college_snacks/blocs/bloc_provider.dart';
+import 'package:college_snacks/blocs/favorite_bloc.dart';
 import 'package:college_snacks/models/cart_model.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/HomeScreen.dart';
@@ -17,14 +19,17 @@ class MyApp extends StatelessWidget {
             builder:(context,child,model){
               return ScopedModel<CartModel>(
                   model:CartModel(model),
-                  child:MaterialApp(
-                    theme: ThemeData(
-                        primaryColor: Color.fromRGBO(181, 1, 97, 1)
+                  child: BlocProvider(
+                    bloc: FavoriteBloc(),
+                    child: MaterialApp(
+                      theme: ThemeData(
+                          primaryColor: Color.fromRGBO(181, 1, 97, 1)
+                      ),
+                      home: HomeScreen(),
+                      debugShowCheckedModeBanner: false,
                     ),
-                    home: HomeScreen(),
-                    debugShowCheckedModeBanner: false,
-                  )//MaterialApp
-              );//ScopedModel<CartModel>
+                  )
+              );
             }//builder
         )
 

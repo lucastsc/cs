@@ -32,6 +32,7 @@ dependencies:
   bloc_pattern: ^2.2.3 # 1.0.3
   animated_card: 1.0.0+8
   flutter_icons: ^0.3.1
+  flutter_launcher_icons: ^0.7.4
 
 dev_dependencies:
   flutter_test:
@@ -82,3 +83,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/AppIcon2.png"

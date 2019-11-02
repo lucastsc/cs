@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:college_snacks/models/cart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserModel extends Model{
 
@@ -10,6 +10,7 @@ class UserModel extends Model{
   void addListener(VoidCallback listener) async{  // function that is called when the object (UserModel variables) changes.
     super.addListener(listener); // Add a listener
     await loadUser(); // refresh current user and user data
+    readFavs();
   }
 
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -108,6 +109,14 @@ class UserModel extends Model{
   Future<Null> _saveUserData(Map<String,dynamic> userData) async {
     this.userData = userData;
     await Firestore.instance.collection("users").document(firebaseUser.uid).setData(userData); //saving userData on Firebase
+  }
+
+  void readFavs() async{
+    final prefs = await SharedPreferences.getInstance();
+    Set<String> keys = prefs.getKeys();
+    for(var key in keys){
+      userFavorites[key] = prefs.getBool(key);
+    }
   }
 
 }

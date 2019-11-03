@@ -16,7 +16,7 @@ class UserModel extends Model{
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
   Map<String,dynamic> userData = Map();//will have name, email, user information...
-  Map<String, dynamic> userFavorites = {}; // to handle user favorites
+  List<String> userFavorites = []; // to handle user favorites
 
   bool isLoading = false;
 
@@ -114,8 +114,8 @@ class UserModel extends Model{
   void readFavs() async{
     final prefs = await SharedPreferences.getInstance();
     Set<String> keys = prefs.getKeys();
-    for(var key in keys){
-      userFavorites[key] = prefs.getBool(key);
+    for(var id in keys){
+      userFavorites.add(id);
     }
   }
 

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Widgets/custom_button.dart';
-import 'package:college_snacks/blocs/bloc_provider.dart';
-import 'package:college_snacks/blocs/favorite_bloc.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/models/user_model.dart';
@@ -32,13 +30,12 @@ class _RestaurantTabState extends State<RestaurantTab> {
   @override
   Widget build(BuildContext context){
 
-    final bloc = BlocProvider.of<FavoriteBloc>(context);
     final model = UserModel.of(context);
 
     void _saveFavs() async{
       final prefs = await SharedPreferences.getInstance();
-      for(var entry in model.userFavorites.entries){
-        prefs.setBool(entry.key, entry.value);
+      for(var id in model.userFavorites){
+        prefs.setString(id, "true");
       }
     }
 
@@ -50,12 +47,12 @@ class _RestaurantTabState extends State<RestaurantTab> {
             Padding(
             padding: EdgeInsets.only(right: 8.0),
             child: IconButton(
-                icon: model.userFavorites.containsKey(selectedRestaurant.id) ? Icon(Icons.favorite) :
+                icon: model.userFavorites.contains(selectedRestaurant.id) ? Icon(Icons.favorite) :
                     Icon(Icons.favorite_border),
                 onPressed: (){
                   setState(() { // First check if the restaurant if fav or not
-                    model.userFavorites.containsKey(selectedRestaurant.id) ? model.userFavorites.remove(selectedRestaurant.id) :
-                        model.userFavorites[selectedRestaurant.id] = true;
+                    model.userFavorites.contains(selectedRestaurant.id) ? model.userFavorites.remove(selectedRestaurant.id) :
+                        model.userFavorites.add(selectedRestaurant.id);
                   });
                   // Then save it locally with Shared_Preferences
                   // todo: need to make a hash of the restaurant id's

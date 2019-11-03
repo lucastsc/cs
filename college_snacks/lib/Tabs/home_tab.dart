@@ -54,25 +54,20 @@ class _HomeTabState extends State<HomeTab> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate((context, index){
-                  return AnimatedCard(
-                      direction: AnimatedCardDirection.left, //Initial animation direction
-                      initDelay: Duration(milliseconds: 0), //Delay to initial animation
-                      duration: Duration(seconds: 2), //Initial animation duration
-                      child: Container(
-                        margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
-                        height: 150,
-                        width: 400,
-                        child: GestureDetector(
-                          child: Card(
-                            color: Colors.blue,
-                            child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
-                          ),
-                          onTap: (){
-                            selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
-                          },
-                        ),
-                      )
+                  return Container(
+                    margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
+                    height: 150,
+                    width: 400,
+                    child: GestureDetector(
+                      child: Card(
+                        color: Colors.blue,
+                        child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                      ),
+                      onTap: (){
+                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
+                      },
+                    ),
                   );
                   //snapshot.data.documents[index]["url"]
                 }, childCount: snapshot.data.documents.length

@@ -1,4 +1,7 @@
+import 'package:college_snacks/Tabs/about_us_tab.dart';
 import 'package:college_snacks/Tabs/card_settings_tab.dart';
+import 'package:college_snacks/Tabs/sales_tab.dart';
+import 'package:college_snacks/Tabs/user_favorites_tab.dart';
 import 'package:college_snacks/Widgets/card_images.dart';
 import 'package:college_snacks/Widgets/user_profile_picture.dart';
 import 'package:college_snacks/models/user_model.dart';
@@ -84,23 +87,26 @@ class UserSettingsScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15.0,),
-          _buildIconTile(Icons.favorite, "Meus favoritos", context),
+          _buildIconTile(Icons.favorite, "Meus favoritos", context, 0),
           SizedBox(height: 15.0,),
-          _buildIconTile(MaterialCommunityIcons.getIconData("ticket-percent"), "Promoções", context),
+          _buildIconTile(MaterialCommunityIcons.getIconData("ticket-percent"), "Promoções", context, 1),
           SizedBox(height: 15.0,),
-          _buildIconTile(MaterialCommunityIcons.getIconData("credit-card-multiple"), "Pagamento", context),
+          _buildIconTile(MaterialCommunityIcons.getIconData("credit-card-multiple"), "Pagamento", context, 2),
           SizedBox(height: 12.0,),
-          _buildIconTile(MaterialCommunityIcons.getIconData("information-variant"), "Sobre", context)
+          _buildIconTile(MaterialCommunityIcons.getIconData("information-variant"), "Sobre", context, 3)
         ],
       );
     }
   }
 }
 
-Widget _buildIconTile(IconData icon, String text, BuildContext context){
+Widget _buildIconTile(IconData icon, String text, BuildContext context, int pageNumber){
   return InkWell(
     onTap: (){
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CardSettings()));
+      if(pageNumber == 0) Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserFavoritesTab()));
+      if(pageNumber == 1) Navigator.of(context).push(MaterialPageRoute(builder: (context) => SalesTab()));
+      if(pageNumber == 2) Navigator.of(context).push(MaterialPageRoute(builder: (context) => CardSettings()));
+      if(pageNumber == 3) Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUsTab()));
     },
     child: Container(
       margin: EdgeInsets.only(left: 22.0, top: 20.0),

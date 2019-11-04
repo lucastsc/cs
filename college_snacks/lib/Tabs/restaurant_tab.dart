@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
@@ -29,7 +31,6 @@ class _RestaurantTabState extends State<RestaurantTab> {
 
   @override
   Widget build(BuildContext context){
-
     final model = UserModel.of(context);
 
     void _saveFavs() async{

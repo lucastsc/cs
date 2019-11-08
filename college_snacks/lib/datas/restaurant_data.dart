@@ -7,6 +7,8 @@ class RestaurantData{
   String name;
   String searchKey;
   String url;
+  String description;
+  int time;
 
   RestaurantData.fromDocument(DocumentSnapshot snapshot){
     id = snapshot.documentID;
@@ -14,5 +16,7 @@ class RestaurantData{
     name = snapshot.data["name"];
     searchKey = snapshot.data["searchKey"];
     url = snapshot.data["url"];
+    description = snapshot.data["description"];
+    time = snapshot.data["time"];
   }
 }

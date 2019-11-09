@@ -9,6 +9,7 @@ class RestaurantData{
   String url;
   String description;
   int time;
+  String cost;
 
   RestaurantData.fromDocument(DocumentSnapshot snapshot){
     id = snapshot.documentID;
@@ -18,5 +19,6 @@ class RestaurantData{
     url = snapshot.data["url"];
     description = snapshot.data["description"];
     time = snapshot.data["time"];
+    cost = snapshot.data["cost"];
   }
 }

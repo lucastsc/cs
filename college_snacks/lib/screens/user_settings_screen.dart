@@ -2,7 +2,6 @@ import 'package:college_snacks/Tabs/about_us_tab.dart';
 import 'package:college_snacks/Tabs/card_settings_tab.dart';
 import 'package:college_snacks/Tabs/sales_tab.dart';
 import 'package:college_snacks/Tabs/user_favorites_tab.dart';
-import 'package:college_snacks/Widgets/card_images.dart';
 import 'package:college_snacks/Widgets/user_profile_picture.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/edit_user_screen.dart';

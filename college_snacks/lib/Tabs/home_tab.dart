@@ -18,7 +18,7 @@ class _HomeTabState extends State<HomeTab> {
       future: Firestore.instance.collection("restaurants").getDocuments(),
       builder: (context, snapshot){
         if(!snapshot.hasData){
-          return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),);
+          return Center(/*child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),*/);
         }
         else{
           return CustomScrollView(

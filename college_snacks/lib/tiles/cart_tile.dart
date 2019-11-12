@@ -36,8 +36,9 @@ class _CartTileState extends State<CartTile> {
         duration: Duration(milliseconds: 0), //Initial animation duration
         onRemove: () => model.removeCartItem(this.cartProduct), //Implement this action to active dismiss
         child: Card(
+          elevation: 8.0,
             margin: EdgeInsets.symmetric(
-                horizontal: 8.0, vertical: 4.0
+                horizontal: 8.0, vertical: 10.0
             ),
             child: cartProduct.productData == null ?
             FutureBuilder<DocumentSnapshot>(

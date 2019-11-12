@@ -105,25 +105,3 @@ class _RestaurantTabState extends State<RestaurantTab> {
   }
 }
 
-/*
-StreamBuilder<Map<String, dynamic>>(
-            initialData: model.userFavorites,
-            stream: bloc.outFav,
-            builder: (context, snapshot){
-              if(snapshot.hasData)
-                return Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: IconButton(
-                    icon: snapshot.data.containsKey(selectedRestaurant.id) ?
-                      Icon(Icons.favorite) : Icon(Icons.favorite_border),
-                    onPressed: (){
-                      bloc.toggleFavorite(selectedRestaurant.id);
-                      if(snapshot.data.containsKey(selectedRestaurant.id)) model.userFavorites.remove(selectedRestaurant.id);
-                      else model.userFavorites[selectedRestaurant.id] = true;
-                    }
-                  ),
-                );
-              else return CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),);
-            },
-          )
- */

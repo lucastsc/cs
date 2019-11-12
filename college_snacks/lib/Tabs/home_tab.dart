@@ -1,4 +1,3 @@
-import 'package:animated_card/animated_card.dart';
 import 'package:college_snacks/Tabs/restaurant_tab.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:flutter/material.dart';

@@ -8,12 +8,34 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin{
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _key = new GlobalKey<FormState>();
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passController = new TextEditingController();
+
+  AnimationController animationController;
+  Animation<double> animatedButton;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2)
+    );
+
+    animatedButton = Tween(begin: 360.0, end: 40.0).
+      animate(CurvedAnimation(parent: animationController, curve: Interval(0.0, 0.150)));
+  }
+
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,57 +63,83 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ListView(
                     padding: EdgeInsets.all(16.0),
                     children: <Widget>[
-                      TextFormField(
-                        decoration: InputDecoration(
-                            hintText: "E-mail"
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value){
-                          if(value.isEmpty || !value.contains("@")) return "E-mail inválido!";
-                        },
-                        controller: _emailController,
-                      ),
-                      SizedBox(height: 16.0,),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            hintText: "Senha"
-                        ),
-                        obscureText: true, // Assim o texto fica escondido
-                        validator: (value){
-                          if(value.isEmpty || value.length < 6) return "Senha Inválida";
-                        },
-                        controller: _passController,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: FlatButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: (){
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "E-mail"
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value){
+                                  if(value.isEmpty || !value.contains("@")) return "E-mail inválido!";
+                                },
+                                controller: _emailController,
+                              ),
+                              SizedBox(height: 16.0,),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "Senha"
+                                ),
+                                obscureText: true, // Assim o texto fica escondido
+                                validator: (value){
+                                  if(value.isEmpty || value.length < 6) return "Senha Inválida";
+                                },
+                                controller: _passController,
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: FlatButton(
+                                    padding: EdgeInsets.zero,
+                                    onPressed: (){
 
-                            },
-                            child: Text(
-                              "Esqueci minha senha",
-                              textAlign: TextAlign.end,
-                              style: TextStyle(),
-                            )
-                        ),
-                      ),
-                      SizedBox(height: 16.0,),
-                      SizedBox(
-                        height: 44.0,
-                        child: RaisedButton(
-                          onPressed: () async{
-                            if(_key.currentState.validate()){}
-                            model.signIn(
-                                email: _emailController.text,
-                                pass: _passController.text,
-                                onSuccess: _onSuccess,
-                                onFailed: _onFailed
-                            );
-                          },
-                          child: Text("Entrar", style: TextStyle(fontSize: 18.0, color: Colors.white),),
-                          color: Theme.of(context).primaryColor,
-                        ),
+                                    },
+                                    child: Text(
+                                      "Esqueci minha senha",
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(),
+                                    )
+                                ),
+                              ),
+                              SizedBox(height: 100.0,),
+                            ],
+                          ),
+                          AnimatedBuilder(
+                              animation: animationController,
+                              builder: (context, child){
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 50.0),
+                                  child: InkWell(
+                                    onTap: () async{
+                                      if(_key.currentState.validate()){
+                                        animationController.forward();
+                                        Future.delayed(Duration(milliseconds: 1500)).then((T){
+                                          model.signIn(
+                                              email: _emailController.text,
+                                              pass: _passController.text,
+                                              onSuccess: _onSuccess,
+                                              onFailed: _onFailed
+                                          );
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: animatedButton.value,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius: BorderRadius.all(Radius.circular(30.0))
+                                      ),
+                                      child: _buildInside(context)
+                                    ),
+                                  ),
+                                );
+                              }
+                          )
+                        ],
                       )
                     ],
                   )
@@ -99,6 +147,19 @@ class _LoginScreenState extends State<LoginScreen> {
             }
         )
     );
+  }
+
+  Widget _buildInside(BuildContext context){
+    if(animatedButton.value > 75) return Text("Entrar", style: TextStyle(fontSize: 18.0, color: Colors.white),);
+    else{
+      return Padding(
+        padding: EdgeInsets.all(2.0),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          strokeWidth: 2.0,
+        ),
+      );
+    }
   }
 
   void _onSuccess(){
@@ -113,6 +174,3 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 }
-
-
-

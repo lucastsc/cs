@@ -8,9 +8,46 @@ class HomeTab extends StatefulWidget {
   _HomeTabState createState() => _HomeTabState();
 }
 
-class _HomeTabState extends State<HomeTab> {
+class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin{
 
   RestaurantData selectedRestaurant;//create the object restaurant.It will contain all the fields of a restaurant.See "restaurant_data".
+  AnimationController controller;
+  Animation<Color> animation;
+  int counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1)
+    );
+
+    animation = ColorTween(
+      begin: Colors.grey[700],
+      end: Colors.grey[800]
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.linear));
+
+    controller.forward();
+
+    controller.addStatusListener((status){
+      if(status == AnimationStatus.completed && counter <=10){
+        controller.reverse();
+      }
+      else if(status == AnimationStatus.dismissed && counter <=10){
+        controller.forward();
+      }
+      counter++;
+      if(counter >= 12) controller.dispose();
+    });
+  }
+
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,20 +90,25 @@ class _HomeTabState extends State<HomeTab> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate((context, index){
-                  return Container(
-                    margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
-                    height: 150,
-                    width: 400,
-                    child: GestureDetector(
-                      child: Card(
-                        color: Colors.blue,
-                        child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
-                      ),
-                      onTap: (){
-                        selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
-                      },
-                    ),
+                  return AnimatedBuilder(
+                    animation: animation,
+                    builder: (context, child){
+                      return Container(
+                        margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
+                        height: 150,
+                        width: 400,
+                        child: GestureDetector(
+                          child: Card(
+                              color: animation.value,
+                              child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
+                          ),
+                          onTap: (){
+                            selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
+                          },
+                        ),
+                      );
+                    },
                   );
                   //snapshot.data.documents[index]["url"]
                 }, childCount: snapshot.data.documents.length

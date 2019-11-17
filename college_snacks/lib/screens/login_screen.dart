@@ -26,8 +26,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       duration: Duration(seconds: 2)
     );
 
-    animatedButton = Tween(begin: 360.0, end: 40.0).
-      animate(CurvedAnimation(parent: animationController, curve: Interval(0.0, 0.150)));
+    animatedButton = Tween(begin: 340.0, end: 40.0).
+      animate(CurvedAnimation(parent: animationController, curve: Interval(0.0, 0.15)));
+
   }
 
 
@@ -61,46 +62,54 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               return Form(
                   key: _key,
                   child: ListView(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.zero,
                     children: <Widget>[
                       Stack(
                         alignment: Alignment.bottomCenter,
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-                              TextFormField(
-                                decoration: InputDecoration(
-                                    hintText: "E-mail"
+                              Padding(
+                                padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                      hintText: "E-mail"
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value){
+                                    if(value.isEmpty || !value.contains("@")) return "E-mail inválido!";
+                                  },
+                                  controller: _emailController,
                                 ),
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value){
-                                  if(value.isEmpty || !value.contains("@")) return "E-mail inválido!";
-                                },
-                                controller: _emailController,
                               ),
-                              SizedBox(height: 16.0,),
-                              TextFormField(
-                                decoration: InputDecoration(
-                                    hintText: "Senha"
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                      hintText: "Senha"
+                                  ),
+                                  obscureText: true, // Assim o texto fica escondido
+                                  validator: (value){
+                                    if(value.isEmpty || value.length < 6) return "Senha Inválida";
+                                  },
+                                  controller: _passController,
                                 ),
-                                obscureText: true, // Assim o texto fica escondido
-                                validator: (value){
-                                  if(value.isEmpty || value.length < 6) return "Senha Inválida";
-                                },
-                                controller: _passController,
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: FlatButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: (){
+                              Padding(
+                                padding: EdgeInsets.only(right: 16.0),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: FlatButton(
+                                      padding: EdgeInsets.zero,
+                                      onPressed: (){
 
-                                    },
-                                    child: Text(
-                                      "Esqueci minha senha",
-                                      textAlign: TextAlign.end,
-                                      style: TextStyle(),
-                                    )
+                                      },
+                                      child: Text(
+                                        "Esqueci minha senha",
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(),
+                                      )
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 100.0,),
@@ -115,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                     onTap: () async{
                                       if(_key.currentState.validate()){
                                         animationController.forward();
-                                        Future.delayed(Duration(milliseconds: 1500)).then((T){
+                                        Future.delayed(Duration(milliseconds: 2000)).then((T){
                                           model.signIn(
                                               email: _emailController.text,
                                               pass: _passController.text,
@@ -126,15 +135,15 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                       }
                                     },
                                     child: Container(
-                                      alignment: Alignment.center,
-                                      width: animatedButton.value,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context).primaryColor,
-                                          borderRadius: BorderRadius.all(Radius.circular(30.0))
-                                      ),
-                                      child: _buildInside(context)
-                                    ),
+                                        alignment: Alignment.center,
+                                        width: animatedButton.value,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.all(Radius.circular(30.0))
+                                        ),
+                                        child: _buildInside(context)
+                                    )
                                   ),
                                 );
                               }

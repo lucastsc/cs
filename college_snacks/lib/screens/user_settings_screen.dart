@@ -30,7 +30,7 @@ class UserSettingsScreen extends StatelessWidget {
               height: 16.0,
             ),
             Text(
-              "Faça o login para gerenciar pagamentos!",
+              "Faça o login para gerenciar sua conta!",
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),

@@ -41,7 +41,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                  title:  Text("Detalhes do item", style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic),),
+                  title:  Text("Detalhes", style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic),),
                   centerTitle: true,
                   background: Image.network(
                     product.url, fit: BoxFit.cover,

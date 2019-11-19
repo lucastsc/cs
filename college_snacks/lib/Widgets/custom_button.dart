@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CartScreen()));
+        //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CartScreen()));
       },
       child: Icon(Icons.shopping_cart),
       backgroundColor: Theme.of(context).primaryColor,

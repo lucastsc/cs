@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
@@ -19,15 +17,41 @@ class RestaurantTab extends StatefulWidget {
   _RestaurantTabState createState() => _RestaurantTabState(restaurantData);
 }
 
-class _RestaurantTabState extends State<RestaurantTab> {
+class _RestaurantTabState extends State<RestaurantTab> with SingleTickerProviderStateMixin{
   //String categoryName; //bebidas,refeicoes,sanduiches...
   //String restaurantName;
   CategoryData categoryData;
   RestaurantData selectedRestaurant;
+  PageController pageController;
 
   _RestaurantTabState(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
 
   bool expanded = false; // if true is ExpansionTile is expanded, if false is collapsed
+  AnimationController animationController;
+  Animation<double> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 250)
+    );
+
+    animation = Tween(begin: 24.0, end: 32.0).animate(CurvedAnimation(parent: animationController, curve: Curves.linear));
+
+    animationController.addStatusListener((status){
+      if(status == AnimationStatus.completed){
+        animationController.reverse();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context){
@@ -47,23 +71,35 @@ class _RestaurantTabState extends State<RestaurantTab> {
         actions: <Widget>[
             Padding(
             padding: EdgeInsets.only(right: 8.0),
-            child: IconButton(
-                icon: model.userFavorites.contains(selectedRestaurant.id) ? Icon(Icons.favorite) :
-                    Icon(Icons.favorite_border),
-                onPressed: (){
-                  setState(() { // First check if the restaurant if fav or not
-                    model.userFavorites.contains(selectedRestaurant.id) ? model.userFavorites.remove(selectedRestaurant.id) :
+            child: AnimatedBuilder(
+              animation: animation,
+              builder: (context, child){
+                return IconButton(
+                    icon: model.userFavorites.contains(selectedRestaurant.id) ? Icon(Icons.favorite, size: animation.value,) :
+                    Icon(Icons.favorite_border, size: animation.value,),
+                    onPressed: (){
+                      animationController.forward();
+                      setState(() { // First check if the restaurant if fav or not
+                        model.userFavorites.contains(selectedRestaurant.id) ? model.userFavorites.remove(selectedRestaurant.id) :
                         model.userFavorites.add(selectedRestaurant.id);
-                  });
-                  // Then save it locally with Shared_Preferences
-                  // todo: need to make a hash of the restaurant id's
-                  _saveFavs();
-                }
-            ),
+                      });
+                      // Then save it locally with Shared_Preferences
+                      // todo: need to make a hash of the restaurant id's
+                      _saveFavs();
+                    }
+                );
+              },
+            )
           )
         ],
       ),
-      floatingActionButton: CustomButton(),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CartScreen()));
+          },
+          child: Icon(Icons.shopping_cart),
+          backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("restaurants")

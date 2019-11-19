@@ -7,7 +7,6 @@ import 'package:scoped_model/scoped_model.dart';
 class CustomDrawer extends StatelessWidget {
 
   final PageController pageController;
-
   CustomDrawer(this.pageController);
 
   @override

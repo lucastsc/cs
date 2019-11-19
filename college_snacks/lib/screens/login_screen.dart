@@ -96,13 +96,13 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 16.0),
+                                padding: EdgeInsets.only(right: 18.0),
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: FlatButton(
                                       padding: EdgeInsets.zero,
                                       onPressed: (){
-
+                                        // todo: implement this part
                                       },
                                       child: Text(
                                         "Esqueci minha senha",

@@ -4,6 +4,7 @@ import 'package:college_snacks/Tabs/sales_tab.dart';
 import 'package:college_snacks/Tabs/user_favorites_tab.dart';
 import 'package:college_snacks/Widgets/user_profile_picture.dart';
 import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:college_snacks/screens/edit_user_screen.dart';
 import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';

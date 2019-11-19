@@ -1,4 +1,3 @@
-import 'package:college_snacks/Tabs/home_tab.dart';
 import 'package:college_snacks/models/cart_model.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/HomeScreen.dart';
@@ -29,7 +28,7 @@ class _MyAppState extends State<MyApp> {
                   home: SplashScreen.navigate(
                     name: 'assets/splashScreen.flr',
                     next: (context) => HomeScreen(),
-                    until: () => Future.delayed(Duration(seconds: 0)),
+                    until: () => Future.delayed(Duration(milliseconds: 0)),
                     startAnimation: 'donutAnimation',
                   ),
                   debugShowCheckedModeBanner: false,

@@ -20,7 +20,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin{
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1)
+      duration: Duration(milliseconds: 600)
     );
 
     animation = ColorTween(
@@ -33,20 +33,14 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin{
     controller.addStatusListener((status){
       if(status == AnimationStatus.completed && counter <=10){
         controller.reverse();
+        counter++;
       }
       else if(status == AnimationStatus.dismissed && counter <=10){
         controller.forward();
+        counter++;
       }
-      counter++;
-      if(counter >= 12) controller.dispose();
+      if(counter >= 11) controller.dispose();
     });
-  }
-
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -189,26 +183,3 @@ class DataSearch extends SearchDelegate<String>{
     );
   }
 }
-
-/*
-AnimatedCard(
-                      direction: AnimatedCardDirection.left, //Initial animation direction
-                      initDelay: Duration(milliseconds: 0), //Delay to initial animation
-                      duration: Duration(seconds: 2), //Initial animation duration
-                      child: Container(
-                        margin: index == 0 ? EdgeInsets.only(top: 5.0, bottom: 2.5, right: 5.0, left: 5.0) : EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.5),
-                        height: 150,
-                        width: 200,
-                        child: GestureDetector(
-                          child: Card(
-                            color: Colors.blue,
-                            child: Image.network(snapshot.data.documents[index]["url"], fit: BoxFit.cover,),
-                          ),
-                          onTap: (){
-                            selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
-                          },
-                        ),
-                      )
-                  );
- */

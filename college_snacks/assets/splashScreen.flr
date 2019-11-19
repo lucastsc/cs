@@ -76,7 +76,7 @@
 				{
 					"name": "donutAnimation",
 					"fps": 60,
-					"duration": 3.35,
+					"duration": 3.8333333333333335,
 					"isLooping": true,
 					"keyed": [
 						{
@@ -187,13 +187,28 @@
 										"time": 3.3333333333333335,
 										"interpolatorType": 1,
 										"value": 12.566370614359172
+									},
+									{
+										"time": 3.5,
+										"interpolatorType": 1,
+										"value": 13.194689145077131
+									},
+									{
+										"time": 3.6666666666666665,
+										"interpolatorType": 1,
+										"value": 13.823007675795091
+									},
+									{
+										"time": 3.8333333333333335,
+										"interpolatorType": 1,
+										"value": 14.451326206513047
 									}
 								]
 							]
 						}
 					],
 					"animationStart": 0,
-					"animationEnd": 3.3333333333333335,
+					"animationEnd": 3.8333333333333335,
 					"type": "animation"
 				}
 			],

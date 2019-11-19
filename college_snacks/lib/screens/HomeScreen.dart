@@ -25,16 +25,9 @@ class HomeScreen extends StatelessWidget {
             centerTitle: true,
           ),
           drawer: CustomDrawer(pageController),
-          body: CartScreen(),
+          body: CartScreen(pageController),
         ),
-        Scaffold(
-          appBar: AppBar(
-            title: Text("Meus pedidos"), backgroundColor: Theme.of(context).primaryColor,
-            centerTitle: true,
-          ),
-          drawer: CustomDrawer(pageController),
-          body: MyOrdersTab(),
-        ),
+        MyOrdersTab(pageController),
         Scaffold(
           appBar: AppBar(
             title: Text("College Snacks"),

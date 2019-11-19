@@ -1,19 +1,28 @@
+import 'package:college_snacks/Tabs/my_orders_tab.dart';
 import 'package:college_snacks/Widgets/discount_card.dart';
 import 'package:college_snacks/Widgets/order_resume_card.dart';
 import 'package:college_snacks/models/cart_model.dart';
 import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/login_screen.dart';
-import 'package:college_snacks/screens/order_confirm_screen.dart';
 import 'package:college_snacks/tiles/cart_tile.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartScreen extends StatefulWidget {
+
+  PageController pageController;
+  CartScreen(this.pageController);
+
   @override
-  _CartScreenState createState() => _CartScreenState();
+  _CartScreenState createState() => _CartScreenState(pageController);
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _CartScreenState extends State<CartScreen> with SingleTickerProviderStateMixin{
+
+  PageController pageController;
+  _CartScreenState(this.pageController);
+  bool finished = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +88,21 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           );
+        }else if (finished == true) {
+          return Column(
+            children: <Widget>[
+              Center(
+                child: FlareActor(
+                  "assets/successCheck.flr",
+                  animation: "successCheck",
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15.0),
+                child: Text("Pedido realizado com sucesso!"),
+              )
+            ],
+          );
         } else if ((model.products == null || model.products.length == 0)) {
           return Center(
             child: Text(
@@ -87,7 +111,7 @@ class _CartScreenState extends State<CartScreen> {
               textAlign: TextAlign.center,
             ),
           );
-        } else {
+        }  else {
           return ListView(
             children: <Widget>[
               Column(
@@ -100,7 +124,12 @@ class _CartScreenState extends State<CartScreen> {
               OrderResumeCard(() async{
                 String orderID = await model.finishOrder();
                 if(orderID != null){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderConfirmScreen(orderID))); // go to final confirmation screen
+                  setState(() {
+                    finished = true;
+                    Future.delayed(Duration(milliseconds: 3500)).then((T){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyOrdersTab(pageController)));
+                    });
+                  });
                 }
               }),
               SizedBox(height: 4.0,),

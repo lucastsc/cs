@@ -4,15 +4,18 @@ import 'package:college_snacks/Tabs/sales_tab.dart';
 import 'package:college_snacks/Tabs/user_favorites_tab.dart';
 import 'package:college_snacks/Widgets/user_profile_picture.dart';
 import 'package:college_snacks/models/user_model.dart';
-import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:college_snacks/screens/edit_user_screen.dart';
 import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 class UserSettingsScreen extends StatelessWidget {
+
+  final PageController controller;
+  UserSettingsScreen(this.controller);
+
   @override
   Widget build(BuildContext context) {
-
     final UserModel model = UserModel.of(context);
     if(model.isLoading) return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),),);
     else if (!model.isLoggedIn()) {
@@ -87,7 +90,7 @@ class UserSettingsScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15.0,),
-          _buildIconTile(Icons.favorite, "Meus favoritos", context, 0),
+          _buildIconTile(Icons.favorite, "Meus favoritos", context, 0, controller: controller),
           SizedBox(height: 15.0,),
           _buildIconTile(MaterialCommunityIcons.getIconData("ticket-percent"), "Promoções", context, 1),
           SizedBox(height: 15.0,),
@@ -100,10 +103,10 @@ class UserSettingsScreen extends StatelessWidget {
   }
 }
 
-Widget _buildIconTile(IconData icon, String text, BuildContext context, int pageNumber){
+Widget _buildIconTile(IconData icon, String text, BuildContext context, int pageNumber, {PageController controller}){
   return InkWell(
     onTap: (){
-      if(pageNumber == 0) Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserFavoritesTab()));
+      if(pageNumber == 0) Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserFavoritesTab(controller)));
       if(pageNumber == 1) Navigator.of(context).push(MaterialPageRoute(builder: (context) => SalesTab()));
       if(pageNumber == 2) Navigator.of(context).push(MaterialPageRoute(builder: (context) => CardSettings()));
       if(pageNumber == 3) Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUsTab()));

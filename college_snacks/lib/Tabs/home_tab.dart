@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeTab extends StatefulWidget {
+
+  final PageController controller;
+  HomeTab(this.controller);
+
   @override
-  _HomeTabState createState() => _HomeTabState();
+  _HomeTabState createState() => _HomeTabState(controller);
 }
 
 class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin{
@@ -13,7 +17,10 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin{
   RestaurantData selectedRestaurant;//create the object restaurant.It will contain all the fields of a restaurant.See "restaurant_data".
   AnimationController controller;
   Animation<Color> animation;
+  PageController pageController;
   int counter = 0;
+
+  _HomeTabState(this.pageController);
 
   @override
   void initState() {
@@ -98,7 +105,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin{
                           ),
                           onTap: (){
                             selectedRestaurant = RestaurantData.fromDocument(snapshot.data.documents[index]);//create a restaurant object with all of it's fields
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));//sends the restaurant object to the RestaurantTab
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant, pageController)));//sends the restaurant object to the RestaurantTab
                           },
                         ),
                       );

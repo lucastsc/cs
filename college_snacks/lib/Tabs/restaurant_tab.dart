@@ -3,6 +3,7 @@ import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:college_snacks/screens/cart_screen.dart';
 import 'package:college_snacks/tiles/expandable_product_tile.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RestaurantTab extends StatefulWidget {
 
   final RestaurantData restaurantData;
-  RestaurantTab(this.restaurantData);
+  final PageController controller;
+  RestaurantTab(this.restaurantData, this.controller);
 
   @override
-  _RestaurantTabState createState() => _RestaurantTabState(restaurantData);
+  _RestaurantTabState createState() => _RestaurantTabState(restaurantData, controller);
 }
 
 class _RestaurantTabState extends State<RestaurantTab> with SingleTickerProviderStateMixin{
@@ -23,8 +25,9 @@ class _RestaurantTabState extends State<RestaurantTab> with SingleTickerProvider
   //String restaurantName;
   CategoryData categoryData;
   RestaurantData selectedRestaurant;
+  PageController controller;
 
-  _RestaurantTabState(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
+  _RestaurantTabState(this.selectedRestaurant, this.controller);//receives the restaurant object clicked from the home_tab
 
   bool expanded = false; // if true is ExpansionTile is expanded, if false is collapsed
   AnimationController animationController;
@@ -96,7 +99,7 @@ class _RestaurantTabState extends State<RestaurantTab> with SingleTickerProvider
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CartScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CartScreen(pageController)));
           },
           child: Icon(Icons.shopping_cart),
           backgroundColor: Theme.of(context).primaryColor,

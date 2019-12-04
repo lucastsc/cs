@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
         Scaffold(
           drawer: CustomDrawer(pageController),
           backgroundColor: Colors.black,
-          body: HomeTab()
+          body: HomeTab(pageController)
         ),
         Scaffold(
           appBar: AppBar(
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
             centerTitle: true,
           ),
           drawer: CustomDrawer(pageController),
-          body: UserSettingsScreen(),
+          body: UserSettingsScreen(pageController),
         )
       ],
     );

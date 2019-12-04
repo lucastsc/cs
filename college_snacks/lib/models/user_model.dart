@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserModel extends Model{
-
   @override
   void addListener(VoidCallback listener) async{  // function that is called when the object (UserModel variables) changes.
     super.addListener(listener); // Add a listener

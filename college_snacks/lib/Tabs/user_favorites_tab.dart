@@ -2,10 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Tabs/restaurant_tab.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class UserFavoritesTab extends StatelessWidget {
+
+  final PageController controller;
+  UserFavoritesTab(this.controller);
+
   @override
   Widget build(BuildContext context) {
 
@@ -56,7 +61,7 @@ Widget _buildTile(String value, EdgeInsets margin, RestaurantData selectedRestau
       else return InkWell(
         onTap: (){
           selectedRestaurant = RestaurantData.fromDocument(snapshot.data);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantTab(selectedRestaurant, pageController)));
         },
         child: Container(
           margin: margin,

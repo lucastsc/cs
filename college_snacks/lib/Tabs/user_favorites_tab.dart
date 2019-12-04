@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:college_snacks/Tabs/restaurant_tab.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/models/user_model.dart';
-import 'package:college_snacks/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 

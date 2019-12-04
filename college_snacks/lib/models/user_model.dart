@@ -79,12 +79,12 @@ class UserModel extends Model{
       isLoading = true;
       notifyListeners();
       firebaseUser = await  _auth.currentUser();
-      isLoading = false;
-      notifyListeners();
+      //isLoading = false;
+      //notifyListeners();
     }
     if(firebaseUser != null){
-      isLoading = true;
-      notifyListeners();
+      //isLoading = true;
+      //notifyListeners();
       DocumentSnapshot doc = await Firestore.instance.collection("users").document(firebaseUser.uid).get();
       this.userData = doc.data;
       isLoading = false;

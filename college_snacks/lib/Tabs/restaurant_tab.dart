@@ -3,6 +3,7 @@ import 'package:college_snacks/Widgets/custom_button.dart';
 import 'package:college_snacks/datas/category_data.dart';
 import 'package:college_snacks/datas/restaurant_data.dart';
 import 'package:college_snacks/models/user_model.dart';
+import 'package:college_snacks/screens/cart_screen.dart';
 import 'package:college_snacks/tiles/expandable_product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
@@ -22,7 +23,6 @@ class _RestaurantTabState extends State<RestaurantTab> with SingleTickerProvider
   //String restaurantName;
   CategoryData categoryData;
   RestaurantData selectedRestaurant;
-  PageController pageController;
 
   _RestaurantTabState(this.selectedRestaurant);//receives the restaurant object clicked from the home_tab
 
@@ -59,6 +59,7 @@ class _RestaurantTabState extends State<RestaurantTab> with SingleTickerProvider
 
     void _saveFavs() async{
       final prefs = await SharedPreferences.getInstance();
+      prefs.clear();
       for(var id in model.userFavorites){
         prefs.setString(id, "true");
       }

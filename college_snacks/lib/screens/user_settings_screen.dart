@@ -7,7 +7,6 @@ import 'package:college_snacks/models/user_model.dart';
 import 'package:college_snacks/screens/edit_user_screen.dart';
 import 'package:college_snacks/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 class UserSettingsScreen extends StatelessWidget {
 
